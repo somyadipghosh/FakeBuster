@@ -653,6 +653,310 @@
     box-shadow: 0 5px 15px rgba(255, 215, 0, 0.5);
 }
 
+/* Dark mode toggle styles */
+.dark-mode-toggle {
+    width: 55px;
+    height: 26px;
+    background-color: #e0e0e0;
+    border-radius: 25px;
+    padding: 3px;
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.3s ease;
+    margin-left: 15px;
+}
+
+.dark-mode-toggle i {
+    font-size: 14px;
+    color: #555;
+    z-index: 1;
+    transition: color 0.3s ease;
+}
+
+.dark-mode-toggle i.fa-sun {
+    color: #f39c12;
+}
+
+.dark-mode-toggle i.fa-moon {
+    color: #2c3e50;
+}
+
+.dark-mode-toggle .toggle-slider {
+    position: absolute;
+    left: 3px;
+    top: 3px;
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+    z-index: 2;
+}
+
+.dark-mode-toggle.active {
+    background-color: #2c3e50;
+}
+
+.dark-mode-toggle.active .toggle-slider {
+    transform: translateX(29px);
+    background-color: #1a2a6c;
+}
+
+/* Dark Mode Styles */
+body.dark-mode {
+    background-color: #121212;
+    color: #f0f0f0;
+}
+
+/* Dark mode navbar */
+body.dark-mode .navbar {
+    background-color: #1e1e1e;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .navbar .logo {
+    color: #f0f0f0;
+}
+
+body.dark-mode .nav-links li a {
+    color: #e0e0e0;
+}
+
+body.dark-mode .nav-links li a:hover, 
+body.dark-mode .nav-links li a.active {
+    color: #FFD700;
+    background-color: rgba(255, 215, 0, 0.1);
+}
+
+/* Dark mode stats section */
+body.dark-mode .stats-highlight {
+    background: #1e1e1e;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .stat-label {
+    color: #c0c0c0;
+}
+
+/* Dark mode features & cards */
+body.dark-mode .feature-card,
+body.dark-mode .step-card,
+body.dark-mode .use-case-card,
+body.dark-mode .testimonial-card,
+body.dark-mode .pricing-card,
+body.dark-mode .contact-card,
+body.dark-mode .contact-social,
+body.dark-mode .contact-form-container {
+    background-color: #2d2d2d;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .feature-card h3,
+body.dark-mode .step-card h3,
+body.dark-mode .use-case-card h3,
+body.dark-mode .testimonial-author h4,
+body.dark-mode .contact-card h3 {
+    color: #f0f0f0;
+}
+
+body.dark-mode .feature-card p,
+body.dark-mode .step-card p,
+body.dark-mode .use-case-card p,
+body.dark-mode .testimonial-content p,
+body.dark-mode .contact-card p {
+    color: #c0c0c0;
+}
+
+/* Dark mode sections with light background */
+body.dark-mode .how-it-works-section,
+body.dark-mode .testimonials-section,
+body.dark-mode .contact-section {
+    background-color: #181818;
+}
+
+body.dark-mode .section-title {
+    color: #f0f0f0;
+}
+
+/* Dark mode forms */
+body.dark-mode .form-group label {
+    color: #e0e0e0;
+}
+
+body.dark-mode .form-group input, 
+body.dark-mode .form-group select, 
+body.dark-mode .form-group textarea {
+    background-color: #333;
+    border-color: #444;
+    color: #f0f0f0;
+}
+
+body.dark-mode .form-group input:focus, 
+body.dark-mode .form-group select:focus, 
+body.dark-mode .form-group textarea:focus {
+    border-color: #FFD700;
+    box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.1);
+}
+
+/* Dark mode footer */
+body.dark-mode .site-footer {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .footer-section h3 {
+    color: #f0f0f0;
+}
+
+body.dark-mode .footer-section p,
+body.dark-mode .footer-section a,
+body.dark-mode .footer-bottom p {
+    color: #c0c0c0;
+}
+
+body.dark-mode .footer-section a:hover {
+    color: #FFD700;
+}
+
+/* Dark mode pricing */
+body.dark-mode .pricing-features {
+    background-color: #252525;
+}
+
+body.dark-mode .pricing-features li {
+    border-color: #444;
+    color: #c0c0c0;
+}
+
+/* Dark mode improvements for Use Cases section */
+body.dark-mode .use-cases-section {
+    background-color: #121212;
+}
+
+body.dark-mode .use-cases-section::before {
+    opacity: 0.1;
+}
+
+body.dark-mode .use-case-card {
+    background-color: #2d2d2d;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .use-case-icon {
+    background: linear-gradient(135deg, #252525, #333);
+}
+
+body.dark-mode .use-case-icon i {
+    color: #FFD700;
+}
+
+body.dark-mode .use-case-card h3 {
+    color: #f0f0f0;
+}
+
+body.dark-mode .use-case-card p {
+    color: #c0c0c0;
+}
+
+body.dark-mode .use-case-card:hover .use-case-icon {
+    background: linear-gradient(135deg, #1a2a6c, #b21f1f);
+}
+
+body.dark-mode .use-case-card:hover h3 {
+    color: #FFD700;
+}
+
+/* Dark mode improvements for Pricing section */
+body.dark-mode .pricing-section {
+    background-color: #121212;
+}
+
+body.dark-mode .pricing-card {
+    background-color: #2d2d2d;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .pricing-header {
+    background: linear-gradient(135deg, #1a2a6c, #b21f1f);
+}
+
+body.dark-mode .pricing-header h3,
+body.dark-mode .price {
+    color: #f0f0f0;
+}
+
+body.dark-mode .pricing-features {
+    background-color: #252525;
+}
+
+body.dark-mode .pricing-features li {
+    color: #c0c0c0;
+    border-color: #444;
+}
+
+body.dark-mode .pricing-btn {
+    background: linear-gradient(135deg, #1a2a6c, #b21f1f);
+    color: #f0f0f0;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .pricing-card.highlighted {
+    border-color: #FFD700;
+}
+
+body.dark-mode .pricing-badge {
+    background: #FFD700;
+    color: #333;
+    box-shadow: 0 3px 10px rgba(255, 215, 0, 0.3);
+}
+
+/* Dark mode improvements for Testimonials section */
+body.dark-mode .testimonials-section {
+    background: linear-gradient(135deg, #181818, #222222);
+}
+
+body.dark-mode .testimonials-section::after {
+    opacity: 0.1;
+}
+
+body.dark-mode .testimonial-card {
+    background: #2d2d2d;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .testimonial-image {
+    background: linear-gradient(135deg, #1a2a6c, #b21f1f);
+}
+
+body.dark-mode .testimonial-content {
+    color: #f0f0f0;
+}
+
+body.dark-mode .quote-icon {
+    color: #333;
+}
+
+body.dark-mode .testimonial-content p {
+    color: #c0c0c0;
+}
+
+body.dark-mode .testimonial-author h4 {
+    color: #f0f0f0;
+}
+
+body.dark-mode .testimonial-author p {
+    color: #aaa;
+}
+
+body.dark-mode .testimonial-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 215, 0, 0.2);
+}
+
 /* Use Cases Section */
 .use-cases-section {
     padding: 100px 0;

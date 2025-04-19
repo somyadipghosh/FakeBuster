@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FakeBuster - Home</title>
+    <title>Welcome to FakeBuster</title>
     <link rel="stylesheet" href="static/css/style.css">
     <link rel="stylesheet" href="static/css/home.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
@@ -19,6 +19,11 @@
             <li><a href="#testimonials"><i class="fas fa-comment"></i> Testimonials</a></li>
             <li><a href="#contact"><i class="fas fa-envelope"></i> Contact</a></li>
             <li><a href="#" class="auth-btn" id="login-nav-btn"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+            <li><div class="dark-mode-toggle" id="dark-mode-toggle">
+                <i class="fas fa-moon"></i>
+                <i class="fas fa-sun"></i>
+                <div class="toggle-slider"></div>
+            </div></li>
         </ul>
     </nav>
     
@@ -403,5 +408,53 @@
     
     <script src="static/js/script.js"></script>
     <script src="static/js/home.js"></script>
+    <script>
+        // Dark Mode Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const darkModeToggle = document.getElementById('dark-mode-toggle');
+            const body = document.body;
+            
+            // Check for saved dark mode preference
+            const savedDarkMode = localStorage.getItem('darkMode');
+            
+            // Apply dark mode if saved preference exists
+            if (savedDarkMode === 'enabled') {
+                enableDarkMode();
+            } else {
+                disableDarkMode();
+            }
+            
+            // Toggle dark mode on button click
+            if (darkModeToggle) {
+                darkModeToggle.addEventListener('click', () => {
+                    if (body.classList.contains('dark-mode')) {
+                        disableDarkMode();
+                    } else {
+                        enableDarkMode();
+                    }
+                });
+            }
+            
+            // Function to enable dark mode
+            function enableDarkMode() {
+                body.classList.add('dark-mode');
+                if (darkModeToggle) {
+                    darkModeToggle.classList.add('active');
+                }
+                localStorage.setItem('darkMode', 'enabled');
+                console.log('Dark mode enabled');
+            }
+            
+            // Function to disable dark mode
+            function disableDarkMode() {
+                body.classList.remove('dark-mode');
+                if (darkModeToggle) {
+                    darkModeToggle.classList.remove('active');
+                }
+                localStorage.setItem('darkMode', 'disabled');
+                console.log('Dark mode disabled');
+            }
+        });
+    </script>
 </body>
 </html>

@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         alert('Login successful! Redirecting to dashboard...');
         // Here you would redirect to the dashboard or home page after successful login
-        // window.location.href = 'dashboard.html';
+        window.location.href = '../templates/index.html';
     });
     
     // Helper function to validate email format

@@ -1,4 +1,58 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Dark Mode Functionality
+    const darkModeToggle = document.getElementById('dark-mode-toggle');
+    const body = document.body;
+    
+    // Check for saved dark mode preference or respect OS preference
+    const prefersDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const savedDarkMode = localStorage.getItem('darkMode');
+    
+    // Apply dark mode if saved preference exists or user OS prefers dark mode
+    if (savedDarkMode === 'enabled' || (savedDarkMode === null && prefersDarkMode)) {
+        enableDarkMode();
+    } else {
+        disableDarkMode();
+    }
+    
+    // Toggle dark mode on button click
+    if (darkModeToggle) {
+        darkModeToggle.addEventListener('click', () => {
+            if (body.classList.contains('dark-mode')) {
+                disableDarkMode();
+            } else {
+                enableDarkMode();
+            }
+        });
+    }
+    
+    // Function to enable dark mode
+    function enableDarkMode() {
+        body.classList.add('dark-mode');
+        if (darkModeToggle) {
+            darkModeToggle.classList.add('active');
+        }
+        localStorage.setItem('darkMode', 'enabled');
+        
+        // Only show toast if this wasn't initial page load
+        if (document.readyState === 'complete') {
+            showToast('Dark mode enabled', 'info');
+        }
+    }
+    
+    // Function to disable dark mode
+    function disableDarkMode() {
+        body.classList.remove('dark-mode');
+        if (darkModeToggle) {
+            darkModeToggle.classList.remove('active');
+        }
+        localStorage.setItem('darkMode', 'disabled');
+        
+        // Only show toast if this wasn't initial page load
+        if (document.readyState === 'complete') {
+            showToast('Light mode enabled', 'info');
+        }
+    }
+    
     // Login/Register form toggle functionality
     const loginForm = document.getElementById('login-form');
     const registerForm = document.getElementById('register-form');

@@ -72,6 +72,27 @@ body {
     width: 100%;
 }
 
+/* Logout button styling */
+.logout-btn {
+    background-color: #dc3545;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    margin-left: 10px;
+    color: white !important;
+}
+
+.logout-btn:hover {
+    background-color: #c82333;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.logout-btn i {
+    margin-right: 5px;
+}
+
 /* Hero Section */
 .hero-section {
     background: linear-gradient(135deg, rgba(0, 123, 255, 0.8), rgba(0, 198, 255, 0.8)), url('../images/pattern.png');
@@ -698,16 +719,220 @@ textarea:focus {
     flex-wrap: wrap;
 }
 
+/* Contact Section Styling */
+.contact-section {
+    background: #f8f9fa;
+    padding: 80px 0;
+    margin-bottom: 0;
+}
+
+.contact-container {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 30px;
+}
+
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    height: fit-content;
+}
+
+.contact-card {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    text-align: center;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.contact-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.contact-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #007BFF, #00C6FF);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 15px;
+    color: white;
+    font-size: 1.5em;
+}
+
+.contact-card h3 {
+    color: #333;
+    margin-bottom: 10px;
+    font-size: 1.2em;
+}
+
+.contact-card p {
+    font-size: 1em;
+    color: #555;
+    margin: 0;
+}
+
+.contact-social {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    text-align: center;
+}
+
+.contact-social h3 {
+    margin-bottom: 15px;
+    color: #333;
+    font-size: 1.2em;
+}
+
+.social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.social-icons a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #f1f3f5;
+    color: #007BFF;
+    font-size: 1.2em;
+    transition: all 0.3s ease;
+}
+
+.social-icons a:hover {
+    background: #007BFF;
+    color: white;
+    transform: scale(1.1);
+}
+
+/* Rest of the contact form styling remains the same */
+.contact-form-container {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-weight: 500;
+    color: #333;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    padding: 12px 15px;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    font-size: 1em;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #007BFF;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.checkbox-group, .radio-options {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.radio-options {
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.radio-option {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.contact-submit-btn {
+    padding: 12px 25px;
+    background: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.1em;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    align-self: flex-start;
+    margin-top: 10px;
+}
+
+.contact-submit-btn:hover {
+    background: #0069d9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+}
+
+.contact-submit-btn:active {
+    transform: scale(0.98);
+}
+
 /* Footer */
 .site-footer {
-    background: #1a2a6c;
+    background: linear-gradient(135deg, #1a2a6c, #b21f1f);
     color: white;
     padding-top: 70px;
+    position: relative;
+}
+
+.site-footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(90deg, #1a2a6c, #b21f1f, #fdbb2d);
 }
 
 .footer-content {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 40px;
     max-width: 1200px;
     margin: 0 auto;
@@ -718,6 +943,18 @@ textarea:focus {
     color: #FFD700;
     margin-bottom: 20px;
     font-size: 1.4em;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.footer-section h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 3px;
+    background: #FFD700;
 }
 
 .footer-section p {
@@ -731,45 +968,60 @@ textarea:focus {
 }
 
 .footer-section ul li {
-    margin-bottom: 10px;
+    margin-bottom: 12px;
+    transition: all 0.3s ease;
 }
 
 .footer-section ul li a {
     color: rgba(255, 255, 255, 0.7);
     text-decoration: none;
     transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
 }
 
 .footer-section ul li a:hover {
     color: #FFD700;
-    padding-left: 5px;
+    transform: translateX(5px);
 }
 
 .footer-section .social-icons {
-    margin-top: 15px;
+    display: flex;
+    justify-content: flex-start;
+    gap: 15px;
+    margin-top: 20px;
 }
 
 .footer-section .social-icons a {
-    width: 38px;
-    height: 38px;
+    width: 40px;
+    height: 40px;
     background: rgba(255, 255, 255, 0.1);
     color: rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    margin: 0;
 }
 
 .footer-section .social-icons a:hover {
     background: #FFD700;
     color: #1a2a6c;
+    transform: translateY(-5px);
 }
 
 .footer-bottom {
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     padding: 25px 0;
     text-align: center;
+    background: rgba(0, 0, 0, 0.1);
 }
 
 .footer-bottom p {
     margin: 0;
     color: rgba(255, 255, 255, 0.7);
+    font-size: 1em;
 }
 
 /* Responsive design */
@@ -825,6 +1077,39 @@ textarea:focus {
         flex: 1 0 auto;
         justify-content: center;
     }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .contact-submit-btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .footer-section h3::after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}
+
+/* Media queries for responsive design */
+@media (max-width: 992px) {
+    .contact-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .contact-info {
+        order: 2;
+    }
+    
+    .contact-form-container {
+        order: 1;
+    }
+    
+    .contact-social {
+        grid-column: span 1;
+    }
 }
 
 /* Animation styles */
@@ -854,4 +1139,489 @@ textarea:focus {
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+
+/* Chatbot styles */
+.chatbot-button {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #007BFF, #00C6FF);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    box-shadow: 0 5px 20px rgba(0, 123, 255, 0.4);
+    cursor: pointer;
+    z-index: 1100;
+    transition: all 0.3s ease;
+}
+
+.chatbot-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 25px rgba(0, 123, 255, 0.5);
+}
+
+.chatbot-button i {
+    font-size: 24px;
+    transition: transform 0.3s ease;
+}
+
+.chatbot-button.active i {
+    transform: rotate(360deg);
+}
+
+.chatbot-container {
+    position: fixed;
+    bottom: 100px;
+    right: 30px;
+    width: 350px;
+    height: 500px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    z-index: 1099;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: translateY(20px) scale(0.9);
+    pointer-events: none;
+}
+
+.chatbot-container.active {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: all;
+}
+
+.chatbot-header {
+    padding: 15px 20px;
+    background: linear-gradient(135deg, #007BFF, #00C6FF);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chatbot-header h3 {
+    margin: 0;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.chatbot-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.chatbot-close:hover {
+    transform: scale(1.1);
+}
+
+.chatbot-messages {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.message {
+    max-width: 75%;
+    padding: 12px 15px;
+    border-radius: 15px;
+    margin-bottom: 5px;
+    font-size: 14px;
+    line-height: 1.4;
+    animation: fadeIn 0.3s ease;
+}
+
+.bot-message {
+    background: #f1f3f5;
+    align-self: flex-start;
+    border-bottom-left-radius: 5px;
+}
+
+.user-message {
+    background: #007BFF;
+    color: white;
+    align-self: flex-end;
+    border-bottom-right-radius: 5px;
+}
+
+.message-input-container {
+    padding: 15px;
+    border-top: 1px solid #eee;
+}
+
+.message-input-form {
+    display: flex;
+    gap: 10px;
+}
+
+.message-input {
+    flex: 1;
+    padding: 12px 15px;
+    border: 1px solid #dee2e6;
+    border-radius: 20px;
+    outline: none;
+    transition: border 0.3s ease;
+}
+
+.message-input:focus {
+    border-color: #007BFF;
+}
+
+.message-send-btn {
+    width: 40px;
+    height: 40px;
+    background: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.message-send-btn:hover {
+    background: #0056b3;
+    transform: scale(1.05);
+}
+
+.message-send-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+.typing-indicator {
+    display: flex;
+    padding: 12px 15px;
+    background: #f1f3f5;
+    border-radius: 15px;
+    align-self: flex-start;
+    border-bottom-left-radius: 5px;
+    width: fit-content;
+    margin-bottom: 5px;
+}
+
+.typing-indicator span {
+    width: 8px;
+    height: 8px;
+    background: #aaa;
+    border-radius: 50%;
+    display: inline-block;
+    margin: 0 2px;
+    animation: typing 1.2s infinite;
+}
+
+.typing-indicator span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.typing-indicator span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes typing {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+/* Responsive adjustments for chatbot */
+@media (max-width: 576px) {
+    .chatbot-container {
+        width: 90%;
+        left: 5%;
+        right: 5%;
+        bottom: 80px;
+    }
+}
+
+/* Dark Mode Toggle Button */
+.dark-mode-toggle {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 5px 10px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: rotate(15deg);
+}
+
+/* Dark Mode Styles */
+body.dark-mode {
+    background-color: #1a1a1a;
+    color: #f0f0f0;
+}
+
+/* Navbar dark mode */
+body.dark-mode .navbar {
+    background: linear-gradient(90deg, #1a237e, #311b92);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Form cards dark mode */
+body.dark-mode .form-card,
+body.dark-mode .dashboard,
+body.dark-mode .tabs-container,
+body.dark-mode .contact-form-container,
+body.dark-mode .contact-card,
+body.dark-mode .contact-social,
+body.dark-mode .step-card,
+body.dark-mode .feature-card,
+body.dark-mode .testimonial,
+body.dark-mode .tab-content,
+body.dark-mode .chatbot-container {
+    background: #2d2d2d;
+    color: #f0f0f0;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Form controls dark mode */
+body.dark-mode textarea,
+body.dark-mode input[type="text"],
+body.dark-mode input[type="email"],
+body.dark-mode input[type="tel"],
+body.dark-mode select {
+    background-color: #3d3d3d;
+    color: #f0f0f0;
+    border-color: #555;
+}
+
+body.dark-mode textarea:focus,
+body.dark-mode input:focus,
+body.dark-mode select:focus {
+    border-color: #7986cb;
+    box-shadow: 0 0 0 3px rgba(121, 134, 203, 0.1);
+}
+
+/* News items dark mode */
+body.dark-mode .news-item {
+    background: #3d3d3d;
+}
+
+body.dark-mode .section-title,
+body.dark-mode h1, 
+body.dark-mode h2, 
+body.dark-mode h3, 
+body.dark-mode h4, 
+body.dark-mode h5, 
+body.dark-mode h6 {
+    color: #f0f0f0;
+}
+
+body.dark-mode .feature-card h3 {
+    color: #90caf9;
+}
+
+body.dark-mode .feature-icon {
+    background: #3d3d3d;
+    color: #90caf9;
+}
+
+body.dark-mode .step-icon {
+    background: linear-gradient(135deg, #1a237e, #311b92);
+}
+
+body.dark-mode .step-card h3 {
+    color: #90caf9;
+}
+
+body.dark-mode .tabs {
+    background: #222;
+    border-bottom-color: #444;
+}
+
+body.dark-mode .tab-btn {
+    color: #aaa;
+}
+
+body.dark-mode .tab-btn:hover {
+    color: #90caf9;
+    background: rgba(144, 202, 249, 0.05);
+}
+
+body.dark-mode .tab-btn.active {
+    color: #90caf9;
+    border-bottom-color: #90caf9;
+    background: #2d2d2d;
+}
+
+body.dark-mode .check-btn {
+    background: #1a237e;
+}
+
+body.dark-mode .check-btn:hover {
+    background: #283593;
+}
+
+/* Dark mode for statistics section */
+body.dark-mode .stats-section {
+    background: #222;
+}
+
+body.dark-mode .stat-card {
+    background: linear-gradient(135deg, #2d2d2d, #333);
+}
+
+body.dark-mode .stat-number {
+    color: #90caf9;
+}
+
+/* Dark mode for features section */
+body.dark-mode .features-section {
+    background-color: #1a1a1a;
+}
+
+/* Dark mode for how it works section */
+body.dark-mode .how-it-works-section {
+    background: rgba(26, 35, 126, 0.05);
+}
+
+/* Dark mode for file upload */
+body.dark-mode .file-upload {
+    border-color: #444;
+}
+
+body.dark-mode .file-upload:hover {
+    border-color: #90caf9;
+    background: rgba(144, 202, 249, 0.03);
+}
+
+body.dark-mode .file-upload-placeholder {
+    color: #aaa;
+}
+
+body.dark-mode .file-upload-placeholder i {
+    color: #90caf9;
+}
+
+/* Result box dark mode */
+body.dark-mode .result-box {
+    background: #333;
+}
+
+body.dark-mode .fake-result {
+    background: rgba(220, 53, 69, 0.1);
+    border-left-color: #dc3545;
+}
+
+body.dark-mode .real-result {
+    background: rgba(40, 167, 69, 0.1);
+    border-left-color: #28a745;
+}
+
+body.dark-mode .error-result {
+    background: rgba(255, 193, 7, 0.1);
+    border-left-color: #ffc107;
+}
+
+/* Dark mode for footer */
+body.dark-mode .site-footer {
+    background: linear-gradient(135deg, #1a237e, #311b92);
+}
+
+body.dark-mode .footer-bottom {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+body.dark-mode .footer-section a {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Chatbot dark mode */
+body.dark-mode .chatbot-header {
+    background: linear-gradient(135deg, #1a237e, #311b92);
+}
+
+body.dark-mode .bot-message {
+    background: #3d3d3d;
+}
+
+body.dark-mode .message-input {
+    background: #3d3d3d;
+    color: #f0f0f0;
+    border-color: #555;
+}
+
+body.dark-mode .message-send-btn {
+    background: #1a237e;
+}
+
+body.dark-mode .message-send-btn:hover {
+    background: #283593;
+}
+
+body.dark-mode .typing-indicator {
+    background: #3d3d3d;
+}
+
+/* Enhanced contact form dark mode styles */
+body.dark-mode .contact-section {
+    background: #222;
+}
+
+body.dark-mode .form-group label {
+    color: #f0f0f0;
+}
+
+body.dark-mode .checkbox-group label,
+body.dark-mode .radio-option label {
+    color: #ddd;
+}
+
+body.dark-mode input[type="checkbox"],
+body.dark-mode input[type="radio"] {
+    accent-color: #7986cb;
+}
+
+body.dark-mode .contact-form-container {
+    background: #2d2d2d;
+}
+
+body.dark-mode .form-group input::placeholder,
+body.dark-mode .form-group textarea::placeholder {
+    color: #999;
+}
+
+body.dark-mode .contact-submit-btn {
+    background: #1a237e;
+}
+
+body.dark-mode .contact-submit-btn:hover {
+    background: #283593;
+    box-shadow: 0 4px 8px rgba(26, 35, 126, 0.4);
+}
+
+body.dark-mode .contact-submit-btn:active {
+    transform: scale(0.98);
+}
+
+/* Fix contact section link colors */
+body.dark-mode .contact-form a {
+    color: #90caf9;
 }

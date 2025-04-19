@@ -470,6 +470,225 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+// Dark Mode toggle functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const darkModeToggle = document.getElementById('dark-mode-toggle');
+    const body = document.body;
+    
+    // Check for saved dark mode preference
+    const savedDarkMode = localStorage.getItem('darkMode');
+    
+    // Apply dark mode if saved preference exists
+    if (savedDarkMode === 'enabled') {
+        enableDarkMode();
+    } else {
+        disableDarkMode();
+    }
+    
+    // Toggle dark mode on button click
+    if (darkModeToggle) {
+        darkModeToggle.addEventListener('click', function() {
+            if (body.classList.contains('dark-mode')) {
+                disableDarkMode();
+            } else {
+                enableDarkMode();
+            }
+        });
+    }
+    
+    // Function to enable dark mode
+    function enableDarkMode() {
+        body.classList.add('dark-mode');
+        if (darkModeToggle) {
+            darkModeToggle.classList.add('active');
+            darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>'; // Change to sun icon
+        }
+        localStorage.setItem('darkMode', 'enabled');
+    }
+    
+    // Function to disable dark mode
+    function disableDarkMode() {
+        body.classList.remove('dark-mode');
+        if (darkModeToggle) {
+            darkModeToggle.classList.remove('active');
+            darkModeToggle.innerHTML = '<i class="fas fa-moon"></i>'; // Change to moon icon
+        }
+        localStorage.setItem('darkMode', 'disabled');
+    }
+});
+
+// Chatbot functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const chatbotToggle = document.getElementById('chatbot-toggle');
+    const chatbotClose = document.getElementById('chatbot-close');
+    const chatbotContainer = document.getElementById('chatbot-container');
+    const messageForm = document.getElementById('message-form');
+    const messageInput = document.getElementById('message-input');
+    const messagesContainer = document.getElementById('chatbot-messages');
+    
+    // Pre-defined bot responses
+    const botResponses = {
+        greetings: [
+            "Hello! How can I help you today?", 
+            "Hi there! I'm FakeBuster's assistant. What can I do for you?",
+            "Welcome to FakeBuster! I'm here to answer your questions."
+        ],
+        farewell: [
+            "Goodbye! Feel free to chat again if you have more questions.",
+            "Have a great day! Come back anytime.",
+            "Thanks for chatting. I'm here if you need more help."
+        ],
+        unknown: [
+            "I'm not sure I understand. Could you rephrase that?",
+            "I'm still learning. Could you ask that in a different way?",
+            "I don't have information about that yet. Is there something else I can help with?"
+        ],
+        about: [
+            "FakeBuster is an AI-powered platform that helps detect fake news, manipulated images, deepfake videos, and synthetic audio.",
+            "We're a media verification platform dedicated to fighting misinformation using advanced AI technology."
+        ],
+        how: [
+            "FakeBuster works by analyzing content using our trained AI models. Just upload your media or paste text to get started!",
+            "Our system compares your content against known patterns of fake media and provides a verification result within seconds."
+        ],
+        features: [
+            "FakeBuster can detect fake news, manipulated images, deepfake videos, and synthetic audio. We also provide educational resources on spotting misinformation.",
+            "Our main features include multi-media verification, instant results, source tracking, and educational resources."
+        ],
+        accuracy: [
+            "Our AI models achieve over 93% accuracy in detecting fake content across various media types.",
+            "FakeBuster has been tested against thousands of verified examples with a 93% success rate."
+        ],
+        cost: [
+            "The basic verification features of FakeBuster are free to use. We also offer premium plans for organizations and high-volume users.",
+            "You can use our core verification tools at no cost. Premium features are available through subscription plans."
+        ]
+    };
+    
+    // Function to find the most relevant response
+    function findResponse(message) {
+        message = message.toLowerCase();
+        
+        // Check for greetings
+        if (message.match(/^(hi|hello|hey|greetings)/)) {
+            return getRandom(botResponses.greetings);
+        }
+        
+        // Check for farewells
+        if (message.match(/(bye|goodbye|see you|farewell)/)) {
+            return getRandom(botResponses.farewell);
+        }
+        
+        // Check for questions about FakeBuster
+        if (message.includes("what is") || message.includes("who are") || message.includes("about fakebuster")) {
+            return getRandom(botResponses.about);
+        }
+        
+        // Check for how it works questions
+        if (message.match(/(how|work|process|analyze|detect)/)) {
+            return getRandom(botResponses.how);
+        }
+        
+        // Check for feature questions
+        if (message.match(/(feature|can it|able to|capability)/)) {
+            return getRandom(botResponses.features);
+        }
+        
+        // Check for accuracy questions
+        if (message.match(/(accuracy|reliable|success rate|how good)/)) {
+            return getRandom(botResponses.accuracy);
+        }
+        
+        // Check for cost/pricing questions
+        if (message.match(/(cost|price|subscription|pay|free)/)) {
+            return getRandom(botResponses.cost);
+        }
+        
+        // If no match, return unknown response
+        return getRandom(botResponses.unknown);
+    }
+    
+    // Helper function to get random item from array
+    function getRandom(array) {
+        return array[Math.floor(Math.random() * array.length)];
+    }
+    
+    // Function to add a new message to the chat
+    function addMessage(content, isUser = false) {
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('message');
+        messageElement.classList.add(isUser ? 'user-message' : 'bot-message');
+        messageElement.textContent = content;
+        messagesContainer.appendChild(messageElement);
+        
+        // Scroll to bottom of messages
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+    
+    // Function to show typing indicator
+    function showTypingIndicator() {
+        const typingIndicator = document.createElement('div');
+        typingIndicator.classList.add('typing-indicator');
+        typingIndicator.id = 'typing-indicator';
+        
+        for (let i = 0; i < 3; i++) {
+            const dot = document.createElement('span');
+            typingIndicator.appendChild(dot);
+        }
+        
+        messagesContainer.appendChild(typingIndicator);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+    
+    // Function to remove typing indicator
+    function removeTypingIndicator() {
+        const typingIndicator = document.getElementById('typing-indicator');
+        if (typingIndicator) {
+            typingIndicator.remove();
+        }
+    }
+    
+    // Toggle chatbot visibility
+    chatbotToggle.addEventListener('click', function() {
+        chatbotContainer.classList.toggle('active');
+        this.classList.toggle('active');
+        
+        // If opening the chatbot and no messages, add welcome message
+        if (chatbotContainer.classList.contains('active') && messagesContainer.children.length === 0) {
+            setTimeout(() => {
+                addMessage("👋 Hi there! I'm FakeBuster's assistant. How can I help you today?");
+            }, 300);
+        }
+    });
+    
+    // Close chatbot
+    chatbotClose.addEventListener('click', function() {
+        chatbotContainer.classList.remove('active');
+        chatbotToggle.classList.remove('active');
+    });
+    
+    // Handle message submission
+    messageForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const message = messageInput.value.trim();
+        if (!message) return;
+        
+        // Add user message to chat
+        addMessage(message, true);
+        messageInput.value = '';
+        
+        // Show typing indicator
+        showTypingIndicator();
+        
+        // Simulate thinking time and respond
+        setTimeout(() => {
+            removeTypingIndicator();
+            addMessage(findResponse(message));
+        }, 1000 + Math.random() * 1000); // Random delay between 1-2 seconds
+    });
+});
+
 // Form submission handling - News/Text
 document.getElementById('news-form')?.addEventListener('submit', async function(e) {
     e.preventDefault();

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FakeBuster</title>
+    <title>FakeBuster AI</title>
     <link rel="stylesheet" href="../static/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
@@ -16,6 +16,8 @@
             <li><a href="#features"><i class="fas fa-star"></i> Features</a></li>
             <li><a href="#analyze"><i class="fas fa-check-circle"></i> Verify</a></li>
             <li><a href="#contact"><i class="fas fa-envelope"></i> Contact</a></li>
+            <li><a href="../templates/login.html" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            <li><button id="dark-mode-toggle" class="dark-mode-toggle"><i class="fas fa-moon"></i></button></li>
         </ul>
     </nav>
     
@@ -420,6 +422,38 @@
             <p>&copy; 2023 FakeBuster. All rights reserved.</p>
         </div>
     </footer>
+    
+    <!-- Chatbot -->
+    <div class="chatbot-button" id="chatbot-toggle">
+        <i class="fas fa-comment"></i>
+    </div>
+    
+    <div class="chatbot-container" id="chatbot-container">
+        <div class="chatbot-header">
+            <h3><i class="fas fa-robot"></i> FakeBuster Assistant</h3>
+            <button class="chatbot-close" id="chatbot-close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="chatbot-messages" id="chatbot-messages">
+            <!-- Messages will be added here dynamically -->
+        </div>
+        <div class="message-input-container">
+            <form id="message-form" class="message-input-form">
+                <input 
+                    type="text" 
+                    id="message-input" 
+                    class="message-input" 
+                    placeholder="Type your question here..." 
+                    autocomplete="off"
+                    required
+                >
+                <button type="submit" class="message-send-btn">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </form>
+        </div>
+    </div>
     
     <script src="../static/js/script.js"></script>
 </body>
