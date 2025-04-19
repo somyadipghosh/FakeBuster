@@ -1,0 +1,220 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 15px;
+    overflow: hidden;
+}
+
+.container {
+    width: 100%;
+    max-width: 450px;
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.form-container {
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    padding: 40px;
+    transition: transform 0.3s ease;
+    animation: fadeIn 0.5s ease-out;
+    width: 100%;
+}
+
+.form-container:hover {
+    transform: translateY(-5px);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+h2 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.subtitle {
+    color: #666;
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 14px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #444;
+    font-size: 14px;
+}
+
+.input-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.icon {
+    position: absolute;
+    left: 15px;
+    color: #666;
+    font-size: 16px;
+}
+
+input {
+    width: 100%;
+    padding: 12px 12px 12px 45px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: all 0.3s;
+    background-color: #f9f9f9;
+}
+
+input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.25);
+    background-color: #fff;
+}
+
+input::placeholder {
+    color: #aaa;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 15px;
+    color: #666;
+    cursor: pointer;
+    font-size: 16px;
+    transition: color 0.3s;
+}
+
+.toggle-password:hover {
+    color: #333;
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+    justify-content: space-between;
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: auto;
+    margin-right: 10px;
+    cursor: pointer;
+    height: 18px;
+    width: 18px;
+    padding: 0;
+    accent-color: #667eea;
+}
+
+.checkbox-label {
+    font-weight: 500;
+    display: inline;
+    font-size: 14px;
+    cursor: pointer;
+    margin-right: auto;
+}
+
+.forgot-link {
+    color: #4285f4;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    transition: color 0.3s;
+}
+
+.forgot-link:hover {
+    color: #2a75f3;
+    text-decoration: underline;
+}
+
+.button-group {
+    margin-top: 25px;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+button i {
+    margin-right: 8px;
+}
+
+.btn-login {
+    background-color: #4285f4;
+    color: white;
+    box-shadow: 0 4px 10px rgba(66, 133, 244, 0.3);
+}
+
+.btn-login:hover {
+    background-color: #2a75f3;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(66, 133, 244, 0.4);
+}
+
+.register-link {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+    color: #555;
+}
+
+.register-link a {
+    color: #4285f4;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s;
+}
+
+.register-link a:hover {
+    color: #2a75f3;
+    text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+    .form-container {
+        padding: 25px 20px;
+    }
+    
+    h2 {
+        font-size: 24px;
+    }
+}

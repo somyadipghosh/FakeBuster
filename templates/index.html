@@ -2,18 +2,425 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FakeBuster</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
-    <div class="container">
-        <h1>FakeBuster - Fake News Detector</h1>
-        <form id="news-form">
-            <textarea name="news" id="news" placeholder="Paste news content here..."></textarea>
-            <button type="submit">Check</button>
-        </form>
-        <div id="result"></div>
+    <nav class="navbar">
+        <div class="logo"><i class="fas fa-shield-alt"></i> FakeBuster</div>
+        <ul class="nav-links">
+            <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="#how-it-works"><i class="fas fa-info-circle"></i> About</a></li>
+            <li><a href="#features"><i class="fas fa-star"></i> Features</a></li>
+            <li><a href="#analyze"><i class="fas fa-check-circle"></i> Verify</a></li>
+            <li><a href="#contact"><i class="fas fa-envelope"></i> Contact</a></li>
+        </ul>
+    </nav>
+    
+    <div class="hero-section">
+        <div class="hero-content">
+            <h1>FakeBuster <span class="highlight">Media Verification Platform</span></h1>
+            <p class="tagline">Verify before you trust. Fight misinformation in news, images, videos, and audio with our AI-powered system</p>
+            <div class="hero-buttons">
+                <a href="#analyze" class="primary-btn"><i class="fas fa-check-circle"></i> Verify Media</a>
+                <a href="#how-it-works" class="secondary-btn"><i class="fas fa-info-circle"></i> Learn How</a>
+            </div>
+        </div>
     </div>
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    
+    <div class="container" id="analyze">
+        <div class="tabs-container">
+            <div class="tabs">
+                <button class="tab-btn active" data-target="news-tab"><i class="fas fa-newspaper"></i> Text/News</button>
+                <button class="tab-btn" data-target="image-tab"><i class="fas fa-image"></i> Images</button>
+                <button class="tab-btn" data-target="video-tab"><i class="fas fa-video"></i> Videos</button>
+                <button class="tab-btn" data-target="audio-tab"><i class="fas fa-microphone"></i> Audio</button>
+            </div>
+            
+            <!-- News Tab -->
+            <div class="tab-content active" id="news-tab">
+                <div class="form-card">
+                    <h2><i class="fas fa-search"></i> Analyze News Content</h2>
+                    <form id="news-form">
+                        <textarea name="news" id="news" placeholder="Paste news content here to verify its authenticity..."></textarea>
+                        <button type="submit" class="check-btn"><i class="fas fa-check-circle"></i> Verify Text</button>
+                    </form>
+                    <div id="news-result" class="result-box">
+                        <!-- Results will appear here -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Image Tab -->
+            <div class="tab-content" id="image-tab">
+                <div class="form-card">
+                    <h2><i class="fas fa-image"></i> Analyze Image</h2>
+                    <form id="image-form">
+                        <div class="file-upload">
+                            <div class="file-upload-placeholder" id="image-placeholder">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>Drag and drop an image or click to browse</p>
+                                <span class="file-info">Supported formats: JPG, PNG, GIF, WEBP (Max 10MB)</span>
+                            </div>
+                            <input type="file" name="image" id="image-input" accept="image/*" class="file-input">
+                        </div>
+                        <div class="image-preview-container" id="image-preview-container" style="display: none;">
+                            <img id="image-preview" src="#" alt="Image Preview">
+                            <button type="button" class="remove-file-btn" id="remove-image"><i class="fas fa-times"></i></button>
+                        </div>
+                        <button type="submit" class="check-btn"><i class="fas fa-check-circle"></i> Verify Image</button>
+                    </form>
+                    <div id="image-result" class="result-box">
+                        <!-- Results will appear here -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Video Tab -->
+            <div class="tab-content" id="video-tab">
+                <div class="form-card">
+                    <h2><i class="fas fa-video"></i> Analyze Video</h2>
+                    <form id="video-form">
+                        <div class="file-upload">
+                            <div class="file-upload-placeholder" id="video-placeholder">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>Drag and drop a video or click to browse</p>
+                                <span class="file-info">Supported formats: MP4, MOV, AVI, WEBM (Max 50MB)</span>
+                            </div>
+                            <input type="file" name="video" id="video-input" accept="video/*" class="file-input">
+                        </div>
+                        <div class="video-preview-container" id="video-preview-container" style="display: none;">
+                            <video id="video-preview" controls></video>
+                            <button type="button" class="remove-file-btn" id="remove-video"><i class="fas fa-times"></i></button>
+                        </div>
+                        <button type="submit" class="check-btn"><i class="fas fa-check-circle"></i> Verify Video</button>
+                    </form>
+                    <div id="video-result" class="result-box">
+                        <!-- Results will appear here -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Audio Tab -->
+            <div class="tab-content" id="audio-tab">
+                <div class="form-card">
+                    <h2><i class="fas fa-microphone"></i> Analyze Audio</h2>
+                    <form id="audio-form">
+                        <div class="file-upload">
+                            <div class="file-upload-placeholder" id="audio-placeholder">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>Drag and drop an audio file or click to browse</p>
+                                <span class="file-info">Supported formats: MP3, WAV, M4A, OGG (Max 20MB)</span>
+                            </div>
+                            <input type="file" name="audio" id="audio-input" accept="audio/*" class="file-input">
+                        </div>
+                        <div class="audio-preview-container" id="audio-preview-container" style="display: none;">
+                            <audio id="audio-preview" controls></audio>
+                            <button type="button" class="remove-file-btn" id="remove-audio"><i class="fas fa-times"></i></button>
+                        </div>
+                        <button type="submit" class="check-btn"><i class="fas fa-check-circle"></i> Verify Audio</button>
+                    </form>
+                    <div id="audio-result" class="result-box">
+                        <!-- Results will appear here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="dashboard">
+            <section class="recent-news">
+                <h2><i class="fas fa-history"></i> Recent Verifications</h2>
+                <div class="news-list">
+                    <div class="news-item">
+                        <span class="news-badge true">True</span>
+                        <div class="news-type"><i class="fas fa-newspaper"></i></div>
+                        <p>NASA confirms new findings on Mars exploration mission</p>
+                    </div>
+                    <div class="news-item">
+                        <span class="news-badge false">Manipulated</span>
+                        <div class="news-type"><i class="fas fa-image"></i></div>
+                        <p>Political rally image found to be digitally altered</p>
+                    </div>
+                    <div class="news-item">
+                        <span class="news-badge mixed">Deepfake</span>
+                        <div class="news-type"><i class="fas fa-video"></i></div>
+                        <p>CEO video statement identified as AI-generated content</p>
+                    </div>
+                    <div class="news-item">
+                        <span class="news-badge false">Synthetic</span>
+                        <div class="news-type"><i class="fas fa-microphone"></i></div>
+                        <p>Celebrity audio clip verified as AI-voiced impersonation</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    
+    <div class="how-it-works-section" id="how-it-works">
+        <div class="container">
+            <h2 class="section-title"><i class="fas fa-cogs"></i> How FakeBuster Works</h2>
+            <div class="steps-container">
+                <div class="step-card">
+                    <div class="step-icon"><i class="fas fa-upload"></i></div>
+                    <h3>Step 1: Upload Media</h3>
+                    <p>Submit any suspicious content - text, image, video, or audio file through our easy-to-use interface.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-icon"><i class="fas fa-robot"></i></div>
+                    <h3>Step 2: AI Analysis</h3>
+                    <p>Our advanced AI algorithms scan the content, detecting manipulation and comparing against verified sources.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-icon"><i class="fas fa-chart-bar"></i></div>
+                    <h3>Step 3: Get Results</h3>
+                    <p>Receive detailed analysis on authenticity, manipulation markers, and confidence scores.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-icon"><i class="fas fa-share-alt"></i></div>
+                    <h3>Step 4: Share Truth</h3>
+                    <p>Share verified results to help combat the spread of manipulated media and misinformation.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- New Statistics Section -->
+    <div class="stats-section">
+        <div class="container">
+            <h2 class="section-title"><i class="fas fa-chart-line"></i> The Impact of Fake News</h2>
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-number">86%</div>
+                    <p>of people have been fooled by fake news at least once</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">70M+</div>
+                    <p>fake news articles are shared online every month</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">3.8B</div>
+                    <p>people are exposed to misinformation on social media daily</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">93%</div>
+                    <p>accuracy achieved by our AI in detecting fake content</p>
+                </div>
+            </div>
+            <div class="testimonials">
+                <div class="testimonial">
+                    <div class="quote"><i class="fas fa-quote-left"></i></div>
+                    <p>"FakeBuster helped me identify misleading information during the election cycle. It's an essential tool for modern citizens."</p>
+                    <div class="testimonial-author">- Sarah Johnson, Journalist</div>
+                </div>
+                <div class="testimonial">
+                    <div class="quote"><i class="fas fa-quote-left"></i></div>
+                    <p>"As an educator, I recommend FakeBuster to all my students as a first step before citing any online sources."</p>
+                    <div class="testimonial-author">- Prof. Michael Chen, University of Technology</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- New Features Section -->
+    <div class="features-section" id="features">
+        <div class="container">
+            <h2 class="section-title"><i class="fas fa-star"></i> Key Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-brain"></i></div>
+                    <h3>Advanced AI</h3>
+                    <p>Our machine learning algorithm is trained on millions of verified news articles for accurate detection.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-bolt"></i></div>
+                    <h3>Instant Results</h3>
+                    <p>Get immediate feedback on the credibility of news content within seconds.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-mobile-alt"></i></div>
+                    <h3>Mobile Friendly</h3>
+                    <p>Verify news on the go with our fully responsive platform that works on all devices.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-lock"></i></div>
+                    <h3>Privacy First</h3>
+                    <p>We never store your submitted content or share your verification history with third parties.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-history"></i></div>
+                    <h3>Source Tracking</h3>
+                    <p>Identify the origin and spread pattern of suspicious news articles across the web.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-graduation-cap"></i></div>
+                    <h3>Educational Resources</h3>
+                    <p>Access guides and tips on how to spot fake news on your own in the future.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- New Call to Action Section -->
+    <div class="cta-section">
+        <div class="container">
+            <h2>Ready to Fight Misinformation?</h2>
+            <p>Join thousands of users who are already making more informed decisions with FakeBuster.</p>
+            <div class="cta-buttons">
+                <a href="#analyze" class="primary-btn"><i class="fas fa-check-circle"></i> Try It Now</a>
+                <a href="#" class="secondary-btn"><i class="fas fa-download"></i> Get Browser Extension</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- New Contact Section -->
+    <div class="contact-section" id="contact">
+        <div class="container">
+            <h2 class="section-title"><i class="fas fa-envelope"></i> Contact Us</h2>
+            <div class="contact-container">
+                <div class="contact-info">
+                    <div class="contact-card">
+                        <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                        <h3>Our Location</h3>
+                        <p>123 Tech Avenue, Digital City</p>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-icon"><i class="fas fa-phone"></i></div>
+                        <h3>Phone Number</h3>
+                        <p>+1 (555) 123-4567</p>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                        <h3>Email Address</h3>
+                        <p>info@fakebuster.com</p>
+                    </div>
+                    <div class="contact-social">
+                        <h3>Follow Us</h3>
+                        <div class="social-icons">
+                            <a href="#" class="twitter"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="facebook"><i class="fab fa-facebook"></i></a>
+                            <a href="#" class="instagram"><i class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form-container">
+                    <form id="contact-form" class="contact-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="contact-name">Your Name</label>
+                                <input type="text" name="name" id="contact-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="contact-email">Your Email</label>
+                                <input type="email" name="email" id="contact-email" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="contact-phone">Phone Number</label>
+                                <input type="tel" name="phone" id="contact-phone" placeholder="Optional">
+                            </div>
+                            <div class="form-group">
+                                <label for="contact-organization">Organization</label>
+                                <input type="text" name="organization" id="contact-organization" placeholder="Optional">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-subject">Subject</label>
+                            <select name="subject" id="contact-subject">
+                                <option value="general">General Inquiry</option>
+                                <option value="support">Technical Support</option>
+                                <option value="feedback">Feedback</option>
+                                <option value="partnership">Partnership</option>
+                                <option value="media">Media Inquiry</option>
+                                <option value="report">Report False Content</option>
+                                <option value="careers">Careers</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-message">Your Message</label>
+                            <textarea name="message" id="contact-message" rows="5" required></textarea>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group checkbox-group">
+                                <input type="checkbox" name="newsletter" id="contact-newsletter">
+                                <label for="contact-newsletter">Subscribe to our newsletter</label>
+                            </div>
+                            <div class="form-group checkbox-group">
+                                <input type="checkbox" name="terms" id="contact-terms" required>
+                                <label for="contact-terms">I agree to the <a href="#">terms and conditions</a></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>How did you hear about us?</label>
+                            <div class="radio-options">
+                                <div class="radio-option">
+                                    <input type="radio" name="source" id="source-search" value="search">
+                                    <label for="source-search">Search Engine</label>
+                                </div>
+                                <div class="radio-option">
+                                    <input type="radio" name="source" id="source-social" value="social">
+                                    <label for="source-social">Social Media</label>
+                                </div>
+                                <div class="radio-option">
+                                    <input type="radio" name="source" id="source-friend" value="friend">
+                                    <label for="source-friend">Friend/Colleague</label>
+                                </div>
+                                <div class="radio-option">
+                                    <input type="radio" name="source" id="source-other" value="other">
+                                    <label for="source-other">Other</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Preferred contact method</label>
+                            <div class="radio-options">
+                                <div class="radio-option">
+                                    <input type="radio" name="contact-method" id="method-email" value="email" checked>
+                                    <label for="method-email">Email</label>
+                                </div>
+                                <div class="radio-option">
+                                    <input type="radio" name="contact-method" id="method-phone" value="phone">
+                                    <label for="method-phone">Phone</label>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="contact-submit-btn"><i class="fas fa-paper-plane"></i> Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About FakeBuster</h3>
+                <p>AI-powered tool to detect and combat fake news in media.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#">How It Works</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <div class="social-icons">
+                    <a href="#" class="twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="instagram"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 FakeBuster. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script src="../static/js/script.js"></script>
 </body>
 </html>

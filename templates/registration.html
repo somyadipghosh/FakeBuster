@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Page</title>
+    <link rel="stylesheet" href="../static/css/registration.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <h2>Create Account</h2>
+            <p class="subtitle">Please fill in the details to register</p>
+            <form id="registrationForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="fullName">Full Name</label>
+                        <div class="input-group">
+                            <i class="fas fa-user icon"></i>
+                            <input type="text" id="fullName" name="fullName" placeholder="Enter your full name" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email ID</label>
+                        <div class="input-group">
+                            <i class="fas fa-envelope icon"></i>
+                            <input type="email" id="email" name="email" placeholder="Enter your email address" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="mobile">Mobile Number</label>
+                        <div class="input-group">
+                            <i class="fas fa-phone icon"></i>
+                            <input type="tel" id="mobile" name="mobile" pattern="[0-9]{10}" placeholder="Enter your 10-digit mobile number" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="dob">Date of Birth</label>
+                        <div class="input-group">
+                            <i class="fas fa-calendar icon"></i>
+                            <input type="date" id="dob" name="dob" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-group">
+                        <i class="fas fa-lock icon"></i>
+                        <input type="password" id="password" name="password" placeholder="Create a strong password" required>
+                        <i class="fas fa-eye toggle-password" data-target="password"></i>
+                    </div>
+                    <div class="password-strength">
+                        <div class="strength-meter">
+                            <div class="strength-meter-fill" id="strength-meter-fill"></div>
+                        </div>
+                        <div class="strength-text" id="strength-text">Password strength</div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <div class="input-group">
+                        <i class="fas fa-lock icon"></i>
+                        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
+                        <i class="fas fa-eye toggle-password" data-target="confirmPassword"></i>
+                    </div>
+                    <div class="password-match" id="password-match"></div>
+                </div>
+                
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="terms" name="terms" required>
+                    <label for="terms" class="checkbox-label">I agree to the <a href="#" class="terms-link">Terms and Conditions</a></label>
+                </div>
+                
+                <div class="social-login">
+                    <p class="social-login-text">Or sign up with</p>
+                    <div class="social-buttons">
+                        <button type="button" class="social-btn google-btn" id="googleLoginBtn">
+                            <i class="fab fa-google"></i> Google
+                        </button>
+                        <button type="button" class="social-btn github-btn" id="githubLoginBtn">
+                            <i class="fab fa-github"></i> GitHub
+                        </button>
+                        <button type="button" class="social-btn microsoft-btn" id="microsoftLoginBtn">
+                            <i class="fab fa-microsoft"></i> Microsoft
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button type="button" id="verifyEmailBtn" class="btn-verify">
+                        <i class="fas fa-envelope-open-text"></i> Verify Email
+                    </button>
+                    <button type="submit" id="registerBtn" class="btn-register">
+                        <i class="fas fa-user-plus"></i> Register Now
+                    </button>
+                </div>
+                
+                <div class="login-link">
+                    <p>Already have an account? <a href="login.html">Login here</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../static/js/registration.js"></script>
+</body>
+</html>

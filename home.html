@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FakeBuster - Home</title>
+    <link rel="stylesheet" href="static/css/style.css">
+    <link rel="stylesheet" href="static/css/home.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo"><i class="fas fa-shield-alt"></i> FakeBuster</div>
+        <ul class="nav-links">
+            <li><a href="#" class="active"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="#features"><i class="fas fa-star"></i> Features</a></li>
+            <li><a href="#how-it-works"><i class="fas fa-info-circle"></i> How It Works</a></li>
+            <li><a href="#testimonials"><i class="fas fa-comment"></i> Testimonials</a></li>
+            <li><a href="#contact"><i class="fas fa-envelope"></i> Contact</a></li>
+            <li><a href="#" class="auth-btn" id="login-nav-btn"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+        </ul>
+    </nav>
+    
+    <!-- Hero Section without Auth Forms -->
+    <div class="hero-section">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>FakeBuster <span class="highlight">Your Defense Against Misinformation</span></h1>
+                <p class="tagline">Detect fake news, manipulated images, deepfakes, and synthetic audio with our AI-powered verification platform</p>
+                <div class="hero-buttons">
+                    <a href="#features" class="primary-btn"><i class="fas fa-rocket"></i> Get Started</a>
+                    <a href="#how-it-works" class="secondary-btn"><i class="fas fa-play-circle"></i> Watch Demo</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Highlights -->
+    <div class="stats-highlight">
+        <div class="container">
+            <div class="stats-row">
+                <div class="stat-item">
+                    <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+                    <div class="stat-number">10M+</div>
+                    <div class="stat-label">Media Files Verified</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon"><i class="fas fa-users"></i></div>
+                    <div class="stat-number">500K+</div>
+                    <div class="stat-label">Trusted Users</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon"><i class="fas fa-globe"></i></div>
+                    <div class="stat-number">150+</div>
+                    <div class="stat-label">Countries</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon"><i class="fas fa-bolt"></i></div>
+                    <div class="stat-number">98%</div>
+                    <div class="stat-label">Accuracy Rate</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="features-section" id="features">
+        <div class="container">
+            <h2 class="section-title"><i class="fas fa-star"></i> Why Choose FakeBuster</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-brain"></i></div>
+                    <h3>AI-Powered Detection</h3>
+                    <p>Our advanced machine learning algorithms detect manipulation patterns invisible to the human eye.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-layer-group"></i></div>
+                    <h3>Multi-Modal Analysis</h3>
+                    <p>Verify text, images, videos, and audio files all on a single integrated platform.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-history"></i></div>
+                    <h3>Real-Time Alerts</h3>
+                    <p>Get instant notifications when viral content is flagged as potentially manipulated.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
+                    <h3>Source Verification</h3>
+                    <p>Trace media to its original source to confirm authenticity and context.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
+                    <h3>Trend Analysis</h3>
+                    <p>Track misinformation trends and detect coordinated inauthentic behavior.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-plug"></i></div>
+                    <h3>Browser Extension</h3>
+                    <p>Verify content directly while browsing social media with our browser extension.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- How It Works Section -->
+    <div class="how-it-works-section" id="how-it-works">
+        <div class="container">
+            <h2 class="section-title"><i class="fas fa-cogs"></i> How FakeBuster Works</h2>
+            <div class="process-steps-container">
+                <div class="process-steps">
+                    <div class="step-card">
+                        <div class="step-icon"><i class="fas fa-upload"></i></div>
+                        <h3>1. Upload Content</h3>
+                        <p>Submit suspicious content through our user-friendly interface.</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-icon"><i class="fas fa-search"></i></div>
+                        <h3>2. AI Analysis</h3>
+                        <p>Our AI scans for manipulation markers and compares with verified databases.</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-icon"><i class="fas fa-file-alt"></i></div>
+                        <h3>3. Get Detailed Report</h3>
+                        <p>Receive a comprehensive verification report with confidence scores.</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-icon"><i class="fas fa-share-alt"></i></div>
+                        <h3>4. Share Results</h3>
+                        <p>Share verification results to promote media literacy and combat fake news.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="process-video">
+                <div class="video-placeholder">
+                    <i class="fas fa-play-circle"></i>
+                    <p>Watch how it works</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Use Cases Section -->
+    <div class="use-cases-section">
+        <div class="container">
+            <h2 class="section-title"><i class="fas fa-user-check"></i> Who Uses FakeBuster</h2>
+            <div class="use-case-container">
+                <div class="use-case-card">
+                    <div class="use-case-icon"><i class="fas fa-newspaper"></i></div>
+                    <h3>Journalists</h3>
+                    <p>Verify sources and content before publication to maintain credibility and trust.</p>
+                </div>
+                <div class="use-case-card">
+                    <div class="use-case-icon"><i class="fas fa-graduation-cap"></i></div>
+                    <h3>Educators</h3>
+                    <p>Teach media literacy and critical thinking skills with real-world examples.</p>
+                </div>
+                <div class="use-case-card">
+                    <div class="use-case-icon"><i class="fas fa-users"></i></div>
+                    <h3>Organizations</h3>
+                    <p>Protect brand reputation by monitoring for fake content about your organization.</p>
+                </div>
+                <div class="use-case-card">
+                    <div class="use-case-icon"><i class="fas fa-user"></i></div>
+                    <h3>Individuals</h3>
+                    <p>Make informed decisions by verifying news and social media content.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Testimonials Section -->
+    <div class="testimonials-section" id="testimonials">
+        <div class="container">
+            <h2 class="section-title"><i class="fas fa-comment-alt"></i> User Testimonials</h2>
+            <div class="testimonials-container">
+                <div class="testimonial-card">
+                    <div class="testimonial-image">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <div class="testimonial-content">
+                        <div class="quote-icon"><i class="fas fa-quote-right"></i></div>
+                        <p>FakeBuster has transformed my news verification process. As a journalist, I now verify all sensitive content before publication, saving my organization from potential embarrassment and legal issues.</p>
+                        <div class="testimonial-author">
+                            <h4>Emily Rodriguez</h4>
+                            <p>Senior Editor, Global News Network</p>
+                        </div>
+                        <div class="testimonial-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-image">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <div class="testimonial-content">
+                        <div class="quote-icon"><i class="fas fa-quote-right"></i></div>
+                        <p>During the last election, I used FakeBuster to verify political content before sharing. The detailed analysis helped me avoid spreading misinformation and made me more conscious about media authenticity.</p>
+                        <div class="testimonial-author">
+                            <h4>Marcus Chen</h4>
+                            <p>Community Organizer</p>
+                        </div>
+                        <div class="testimonial-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pricing Section -->
+    <div class="pricing-section">
+        <div class="container">
+            <h2 class="section-title"><i class="fas fa-tag"></i> Pricing Plans</h2>
+            <div class="pricing-container">
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Free</h3>
+                        <div class="price">$0<span>/month</span></div>
+                    </div>
+                    <div class="pricing-features">
+                        <ul>
+                            <li><i class="fas fa-check"></i> 10 verifications per day</li>
+                            <li><i class="fas fa-check"></i> Text and image verification</li>
+                            <li><i class="fas fa-check"></i> Basic reports</li>
+                            <li><i class="fas fa-check"></i> Community support</li>
+                            <li><i class="fas fa-times"></i> Video and audio verification</li>
+                            <li><i class="fas fa-times"></i> API access</li>
+                        </ul>
+                    </div>
+                    <div class="pricing-cta">
+                        <a href="#" class="pricing-btn">Sign Up Free</a>
+                    </div>
+                </div>
+                <div class="pricing-card highlighted">
+                    <div class="pricing-badge">Popular</div>
+                    <div class="pricing-header">
+                        <h3>Premium</h3>
+                        <div class="price">$9.99<span>/month</span></div>
+                    </div>
+                    <div class="pricing-features">
+                        <ul>
+                            <li><i class="fas fa-check"></i> 100 verifications per day</li>
+                            <li><i class="fas fa-check"></i> All media types verification</li>
+                            <li><i class="fas fa-check"></i> Detailed analysis reports</li>
+                            <li><i class="fas fa-check"></i> Priority support</li>
+                            <li><i class="fas fa-check"></i> Browser extension</li>
+                            <li><i class="fas fa-times"></i> API access</li>
+                        </ul>
+                    </div>
+                    <div class="pricing-cta">
+                        <a href="#" class="pricing-btn">Start Premium</a>
+                    </div>
+                </div>
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Enterprise</h3>
+                        <div class="price">$49.99<span>/month</span></div>
+                    </div>
+                    <div class="pricing-features">
+                        <ul>
+                            <li><i class="fas fa-check"></i> Unlimited verifications</li>
+                            <li><i class="fas fa-check"></i> All media types verification</li>
+                            <li><i class="fas fa-check"></i> Advanced forensic reports</li>
+                            <li><i class="fas fa-check"></i> Dedicated support</li>
+                            <li><i class="fas fa-check"></i> API access</li>
+                            <li><i class="fas fa-check"></i> Custom integration</li>
+                        </ul>
+                    </div>
+                    <div class="pricing-cta">
+                        <a href="#" class="pricing-btn">Contact Sales</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="cta-section">
+        <div class="container">
+            <h2>Start Verifying Content Today</h2>
+            <p>Join thousands of users fighting misinformation with FakeBuster's powerful AI tools</p>
+            <div class="cta-buttons">
+                <a href="#" class="primary-btn" id="cta-signup-btn"><i class="fas fa-user-plus"></i> Create Free Account</a>
+                <a href="#features" class="secondary-btn"><i class="fas fa-info-circle"></i> Learn More</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Section -->
+    <div class="contact-section" id="contact">
+        <div class="container">
+            <h2 class="section-title"><i class="fas fa-envelope"></i> Contact Us</h2>
+            <div class="contact-container">
+                <div class="contact-info">
+                    <div class="contact-card">
+                        <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                        <h3>Our Location</h3>
+                        <p>123 Tech Avenue, Digital City</p>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-icon"><i class="fas fa-phone"></i></div>
+                        <h3>Phone Number</h3>
+                        <p>+1 (555) 123-4567</p>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                        <h3>Email Address</h3>
+                        <p>info@fakebuster.com</p>
+                    </div>
+                    <div class="contact-social">
+                        <h3>Follow Us</h3>
+                        <div class="social-icons">
+                            <a href="#" class="twitter"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="facebook"><i class="fab fa-facebook"></i></a>
+                            <a href="#" class="instagram"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="linkedin"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form-container">
+                    <form id="contact-form" class="contact-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="contact-name">Your Name</label>
+                                <input type="text" name="name" id="contact-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="contact-email">Your Email</label>
+                                <input type="email" name="email" id="contact-email" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-subject">Subject</label>
+                            <select name="subject" id="contact-subject">
+                                <option value="general">General Inquiry</option>
+                                <option value="support">Technical Support</option>
+                                <option value="feedback">Feedback</option>
+                                <option value="partnership">Partnership</option>
+                                <option value="media">Media Inquiry</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-message">Your Message</label>
+                            <textarea name="message" id="contact-message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="contact-submit-btn"><i class="fas fa-paper-plane"></i> Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About FakeBuster</h3>
+                <p>An AI-powered tool to detect and combat fake news, manipulated images, deepfakes, and synthetic audio.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#how-it-works">How It Works</a></li>
+                    <li><a href="#testimonials">Testimonials</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Legal</h3>
+                <ul>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Cookie Policy</a></li>
+                    <li><a href="#">GDPR Compliance</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <div class="social-icons">
+                    <a href="#" class="twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="linkedin"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 FakeBuster. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script src="static/js/script.js"></script>
+    <script src="static/js/home.js"></script>
+</body>
+</html>
