@@ -468,6 +468,202 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    // Fix for Start Discussion button and Community Forum functionality
+    const discussionModal = document.getElementById('discussion-modal');
+    const startDiscussionBtn = document.querySelector('.start-discussion-btn');
+    const closeModalBtn = document.querySelector('.close-modal-btn');
+    const discussionForm = document.getElementById('new-discussion-form');
+    
+    // Open discussion modal when Start Discussion button is clicked
+    if (startDiscussionBtn) {
+        startDiscussionBtn.addEventListener('click', function() {
+            discussionModal.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        });
+    }
+    
+    // Close discussion modal
+    if (closeModalBtn) {
+        closeModalBtn.addEventListener('click', function() {
+            discussionModal.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+    }
+    
+    // Close modal when clicking outside
+    window.addEventListener('click', function(event) {
+        if (event.target === discussionModal) {
+            discussionModal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    });
+    
+    // Handle discussion form submission
+    if (discussionForm) {
+        discussionForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const title = document.getElementById('discussion-title').value;
+            const category = document.getElementById('discussion-category').value;
+            const tags = document.getElementById('discussion-tags').value;
+            const content = document.getElementById('discussion-content').value;
+            
+            // Validate form
+            if (!title || !category || !content) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+            
+            // Create new discussion
+            createNewDiscussion(title, category, content, tags);
+            
+            // Close modal
+            discussionModal.classList.remove('active');
+            document.body.style.overflow = '';
+            
+            // Reset form
+            discussionForm.reset();
+        });
+    }
+    
+    // Function to create and add a new discussion to the forum
+    function createNewDiscussion(title, category, content, tags = '') {
+        const topicsList = document.querySelector('.topics-list');
+        if (!topicsList) return;
+        
+        // Create new topic HTML
+        const newTopic = document.createElement('div');
+        newTopic.className = 'topic-item latest-topic';
+        newTopic.innerHTML = `
+            <div class="topic-votes">
+                <button class="vote-btn"><i class="fas fa-chevron-up"></i></button>
+                <span class="vote-count">1</span>
+                <button class="vote-btn"><i class="fas fa-chevron-down"></i></button>
+            </div>
+            <div class="topic-content">
+                <div class="topic-header">
+                    <h3><a href="#">${title}</a></h3>
+                    <span class="topic-badge latest">Latest</span>
+                </div>
+                <div class="topic-meta">
+                    <span class="topic-author"><i class="fas fa-user"></i> You</span>
+                    <span class="topic-date"><i class="fas fa-clock"></i> Just now</span>
+                    <span class="topic-category"><i class="fas fa-tag"></i> ${category}</span>
+                </div>
+                <p class="topic-excerpt">${content.substring(0, 150)}${content.length > 150 ? '...' : ''}</p>
+                <div class="topic-stats">
+                    <span><i class="fas fa-comment"></i> 0 comments</span>
+                    <span><i class="fas fa-eye"></i> 1 view</span>
+                </div>
+            </div>
+        `;
+        
+        // Add to the top of the list
+        if (topicsList.firstChild) {
+            topicsList.insertBefore(newTopic, topicsList.firstChild);
+        } else {
+            topicsList.appendChild(newTopic);
+        }
+        
+        // Add vote functionality to the new topic
+        const voteButtons = newTopic.querySelectorAll('.vote-btn');
+        voteButtons.forEach(btn => {
+            btn.addEventListener('click', handleVote);
+        });
+        
+        // Update latest discussion in sidebar
+        updateLatestDiscussionInSidebar(title, content);
+        
+        // Animation for new topic
+        newTopic.style.opacity = '0';
+        newTopic.style.transform = 'translateY(-10px)';
+        setTimeout(() => {
+            newTopic.style.opacity = '1';
+            newTopic.style.transform = 'translateY(0)';
+        }, 10);
+    }
+    
+    // Function to update the latest discussion in the sidebar
+    function updateLatestDiscussionInSidebar(title, content) {
+        const latestDiscussionsBlock = document.querySelector('.latest-discussions');
+        if (!latestDiscussionsBlock) return;
+        
+        // Generate random avatar
+        const randomAvatar = `https://randomuser.me/api/portraits/${Math.random() > 0.5 ? 'men' : 'women'}/${Math.floor(Math.random() * 100)}.jpg`;
+        
+        // Create new card
+        const newCard = document.createElement('div');
+        newCard.className = 'latest-discussion-card';
+        newCard.innerHTML = `
+            <div class="discussion-header">
+                <img src="${randomAvatar}" alt="User avatar" class="user-avatar">
+                <div class="discussion-info">
+                    <h4>${title}</h4>
+                    <span class="discussion-poster">You • Just now</span>
+                </div>
+            </div>
+            <p class="discussion-snippet">${content.substring(0, 100)}${content.length > 100 ? '...' : ''}</p>
+            <div class="discussion-footer">
+                <a href="#" class="read-more-btn">Read More</a>
+            </div>
+        `;
+        
+        // Replace existing card
+        const existingCard = latestDiscussionsBlock.querySelector('.latest-discussion-card');
+        if (existingCard) {
+            latestDiscussionsBlock.replaceChild(newCard, existingCard);
+        } else {
+            latestDiscussionsBlock.appendChild(newCard);
+        }
+    }
+    
+    // Handle vote buttons
+    function handleVote() {
+        const direction = this.innerHTML.includes('up') ? 1 : -1;
+        const voteCountElem = this.parentElement.querySelector('.vote-count');
+        let currentVotes = parseInt(voteCountElem.textContent);
+        
+        // Check if user has already voted
+        const hasVoted = this.classList.contains('voted');
+        
+        if (hasVoted) {
+            // Remove vote
+            currentVotes -= direction;
+            this.classList.remove('voted');
+            this.style.color = '';
+        } else {
+            // Add vote
+            currentVotes += direction;
+            this.classList.add('voted');
+            this.style.color = direction > 0 ? '#007BFF' : '#dc3545';
+            
+            // Remove vote from opposite button if it was selected
+            const oppositeBtn = direction > 0 ? 
+                this.parentElement.querySelector('.vote-btn:nth-child(3)') : 
+                this.parentElement.querySelector('.vote-btn:nth-child(1)');
+            
+            if (oppositeBtn.classList.contains('voted')) {
+                oppositeBtn.classList.remove('voted');
+                oppositeBtn.style.color = '';
+                currentVotes -= (direction * -1);
+            }
+        }
+        
+        voteCountElem.textContent = currentVotes;
+        
+        // Add a brief animation to the count
+        voteCountElem.style.transform = 'scale(1.2)';
+        setTimeout(() => {
+            voteCountElem.style.transform = 'scale(1)';
+        }, 200);
+    }
+    
+    // Attach vote handlers to existing vote buttons
+    document.querySelectorAll('.vote-btn').forEach(btn => {
+        btn.addEventListener('click', handleVote);
+    });
 });
 
 // Dark Mode toggle functionality
@@ -689,303 +885,610 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Form submission handling - News/Text
-document.getElementById('news-form')?.addEventListener('submit', async function(e) {
-    e.preventDefault();
-    const news = document.getElementById('news').value;
-    const resultBox = document.getElementById('news-result');
+// Pagination functionality for forum
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle pagination
+    const pagingElements = document.querySelectorAll('.topics-paging .paging-number, .topics-paging .paging-btn');
+    const topicsList = document.querySelector('.topics-list');
     
-    // Show loading animation
-    resultBox.innerHTML = '<div class="loading-spinner"></div><div class="result-text">Analyzing your news. Wait some seconds.</div>';
-    resultBox.className = 'result-box';
+    if (pagingElements && topicsList) {
+        // Sample data for demonstration - each page will show different discussions
+        const pageData = {
+            1: [
+                {
+                    title: "How to identify AI-generated images?",
+                    badge: "Hot", 
+                    author: "JaneDoe", 
+                    time: "2 hours ago",
+                    category: "Image Verification",
+                    excerpt: "I've been seeing a lot of hyper-realistic images lately and I'm having trouble determining which are real and which are AI-generated...",
+                    votes: 42,
+                    comments: 18,
+                    views: 124,
+                    isNew: false,
+                    isLatest: false
+                },
+                {
+                    title: "Spotting deepfakes in political videos",
+                    badge: "New", 
+                    author: "TechWatcher", 
+                    time: "Yesterday",
+                    category: "Video Analysis",
+                    excerpt: "With the upcoming elections, we're seeing an increase in manipulated political content. Here are some tips to identify deepfakes...",
+                    votes: 36,
+                    comments: 24,
+                    views: 231,
+                    isNew: true,
+                    isLatest: false
+                },
+                {
+                    title: "Success story: FakeBuster helped debunk viral misinformation",
+                    badge: "", 
+                    author: "FactChecker", 
+                    time: "3 days ago",
+                    category: "Success Stories",
+                    excerpt: "I want to share how I used FakeBuster to verify a viral news story that was spreading false information about climate change...",
+                    votes: 29,
+                    comments: 32,
+                    views: 378,
+                    isNew: false,
+                    isLatest: false
+                },
+                {
+                    title: "Best practices for verifying audio clips",
+                    badge: "Latest", 
+                    author: "AudioExpert", 
+                    time: "Just now",
+                    category: "Audio Verification",
+                    excerpt: "I've compiled a guide for identifying synthetic audio based on my experience as an audio engineer. These techniques have helped me spot AI-generated voices...",
+                    votes: 18,
+                    comments: 5,
+                    views: 47,
+                    isNew: false,
+                    isLatest: true
+                }
+            ],
+            2: [
+                {
+                    title: "Detecting image manipulation using metadata",
+                    badge: "Tutorial", 
+                    author: "MetadataExpert", 
+                    time: "4 hours ago",
+                    category: "Image Verification",
+                    excerpt: "Learn how to examine image metadata to find clues about possible manipulation. This step-by-step guide will show you the tools and techniques...",
+                    votes: 53,
+                    comments: 15,
+                    views: 210,
+                    isNew: false,
+                    isLatest: false
+                },
+                {
+                    title: "New AI detection model released",
+                    badge: "News", 
+                    author: "AIResearcher", 
+                    time: "Today",
+                    category: "Research & Technology",
+                    excerpt: "Our team has just released a new model that can detect AI-generated content with 97% accuracy. Here's how it works and how you can use it...",
+                    votes: 61,
+                    comments: 27,
+                    views: 302,
+                    isNew: true,
+                    isLatest: false
+                },
+                {
+                    title: "Analyzing political speeches for misleading claims",
+                    badge: "", 
+                    author: "PoliticalAnalyst", 
+                    time: "2 days ago",
+                    category: "Political Content",
+                    excerpt: "In this election season, I've been using FakeBuster to analyze various political speeches. Here's what I found and how you can verify claims yourself...",
+                    votes: 38,
+                    comments: 41,
+                    views: 415,
+                    isNew: false,
+                    isLatest: false
+                },
+                {
+                    title: "Is this viral TikTok real or fake?",
+                    badge: "Latest", 
+                    author: "SocialMediaWatcher", 
+                    time: "1 hour ago",
+                    category: "Social Media",
+                    excerpt: "A viral TikTok showing a politician saying controversial things has been shared millions of times. I used FakeBuster to determine if it's authentic...",
+                    votes: 27,
+                    comments: 19,
+                    views: 183,
+                    isNew: false,
+                    isLatest: true
+                }
+            ],
+            3: [
+                {
+                    title: "Deep learning models for synthetic text detection",
+                    badge: "Technical", 
+                    author: "DeepLearningDev", 
+                    time: "5 hours ago",
+                    category: "Technical Discussion",
+                    excerpt: "I've been experimenting with different neural network architectures for detecting AI-generated text. Here are my findings and recommendations...",
+                    votes: 48,
+                    comments: 22,
+                    views: 176,
+                    isNew: false,
+                    isLatest: false
+                },
+                {
+                    title: "Legal implications of sharing manipulated content",
+                    badge: "Legal", 
+                    author: "DigitalLawyer", 
+                    time: "Yesterday",
+                    category: "Legal Discussion",
+                    excerpt: "What are the legal consequences of knowingly sharing manipulated media? This post explores the current laws and regulations across different jurisdictions...",
+                    votes: 41,
+                    comments: 33,
+                    views: 287,
+                    isNew: false,
+                    isLatest: false
+                },
+                {
+                    title: "Verification challenge: Can you spot the fake?",
+                    badge: "Challenge", 
+                    author: "VerificationExpert", 
+                    time: "2 days ago",
+                    category: "Interactive",
+                    excerpt: "Test your skills with these 10 examples of media content. Can you identify which ones are authentic and which ones are manipulated?",
+                    votes: 73,
+                    comments: 56,
+                    views: 529,
+                    isNew: true,
+                    isLatest: false
+                },
+                {
+                    title: "How social media platforms are fighting misinformation",
+                    badge: "Latest", 
+                    author: "PlatformAnalyst", 
+                    time: "30 minutes ago",
+                    category: "Platform Policies",
+                    excerpt: "A comparative analysis of how major social media platforms are implementing measures to combat the spread of synthetic and manipulated media...",
+                    votes: 32,
+                    comments: 14,
+                    views: 142,
+                    isNew: false,
+                    isLatest: true
+                }
+            ]
+        };
 
-    try {
-        const response = await fetch('/predict/text', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            body: `text=${encodeURIComponent(news)}`
-        });
-
-        const result = await response.json();
-        
-        // Add animation to result display
-        resultBox.style.opacity = 0;
-        
-        setTimeout(() => {
-            if (result.prediction === "FAKE") {
-                resultBox.className = 'result-box fake-result';
-                resultBox.innerHTML = '<div class="result-icon">🛑</div><div class="result-text">FAKE NEWS DETECTED!</div>';
-            } else {
-                resultBox.className = 'result-box real-result';
-                resultBox.innerHTML = '<div class="result-icon">✅</div><div class="result-text">This news appears to be REAL.</div>';
+        // Function to generate HTML for a topic item
+        function generateTopicHTML(topic) {
+            let topicClass = "";
+            if (topic.isNew) topicClass = "new-topic";
+            if (topic.isLatest) topicClass = "latest-topic";
+            
+            let badgeHTML = "";
+            if (topic.badge) {
+                let badgeClass = "";
+                if (topic.badge === "New") badgeClass = "new";
+                if (topic.badge === "Latest") badgeClass = "latest";
+                badgeHTML = `<span class="topic-badge ${badgeClass}">${topic.badge}</span>`;
             }
-            resultBox.style.opacity = 1;
-        }, 300);
-    } catch (error) {
-        resultBox.className = 'result-box';
-        resultBox.innerHTML = '<div class="result-icon">⏳</div><div class="result-text">Analyzing your news. Wait some seconds.</div>';
-        resultBox.style.opacity = 1;
-    }
-});
-
-// Form submission handling - Image
-document.getElementById('image-form')?.addEventListener('submit', async function(e) {
-    e.preventDefault();
-    const imageInput = document.getElementById('image-input');
-    const resultBox = document.getElementById('image-result');
-    
-    if (!imageInput.files || imageInput.files.length === 0) {
-        resultBox.className = 'result-box error-result';
-        resultBox.innerHTML = '<div class="result-icon">⚠️</div><div class="result-text">Please select an image to analyze.</div>';
-        return;
-    }
-    
-    // Show loading animation
-    resultBox.innerHTML = '<div class="loading-spinner"></div>';
-    resultBox.className = 'result-box';
-
-    try {
-        const formData = new FormData();
-        formData.append('image', imageInput.files[0]);
-        
-        const response = await fetch('/predict/image', {
-            method: 'POST',
-            body: formData
-        });
-
-        const result = await response.json();
-        
-        // Add animation to result display
-        resultBox.style.opacity = 0;
-        
-        setTimeout(() => {
-            if (result.prediction === "FAKE" || result.prediction === "MANIPULATED") {
-                resultBox.className = 'result-box fake-result';
-                resultBox.innerHTML = `
-                    <div class="result-icon">🛑</div>
-                    <div class="result-text">IMAGE MANIPULATION DETECTED!</div>
-                    <div class="result-details">
-                        <p>Confidence: ${result.confidence}%</p>
-                        <p>Type: ${result.manipulation_type || 'Digital Alteration'}</p>
+            
+            return `
+                <div class="topic-item ${topicClass}">
+                    <div class="topic-votes">
+                        <button class="vote-btn"><i class="fas fa-chevron-up"></i></button>
+                        <span class="vote-count">${topic.votes}</span>
+                        <button class="vote-btn"><i class="fas fa-chevron-down"></i></button>
                     </div>
-                `;
-            } else {
-                resultBox.className = 'result-box real-result';
-                resultBox.innerHTML = `
-                    <div class="result-icon">✅</div>
-                    <div class="result-text">This image appears to be AUTHENTIC.</div>
-                    <div class="result-details">
-                        <p>Confidence: ${result.confidence}%</p>
+                    <div class="topic-content">
+                        <div class="topic-header">
+                            <h3><a href="#">${topic.title}</a></h3>
+                            ${badgeHTML}
+                        </div>
+                        <div class="topic-meta">
+                            <span class="topic-author"><i class="fas fa-user"></i> ${topic.author}</span>
+                            <span class="topic-date"><i class="fas fa-clock"></i> ${topic.time}</span>
+                            <span class="topic-category"><i class="fas fa-tag"></i> ${topic.category}</span>
+                        </div>
+                        <p class="topic-excerpt">${topic.excerpt}</p>
+                        <div class="topic-stats">
+                            <span><i class="fas fa-comment"></i> ${topic.comments} comments</span>
+                            <span><i class="fas fa-eye"></i> ${topic.views} views</span>
+                        </div>
                     </div>
-                `;
-            }
-            resultBox.style.opacity = 1;
-        }, 300);
-    } catch (error) {
-        resultBox.className = 'result-box error-result';
-        resultBox.innerHTML = '<div class="result-icon">⚠️</div><div class="result-text">Error processing request. Please try again.</div>';
-        resultBox.style.opacity = 1;
-    }
-});
-
-// Form submission handling - Video
-document.getElementById('video-form')?.addEventListener('submit', async function(e) {
-    e.preventDefault();
-    const videoInput = document.getElementById('video-input');
-    const resultBox = document.getElementById('video-result');
-    
-    if (!videoInput.files || videoInput.files.length === 0) {
-        resultBox.className = 'result-box error-result';
-        resultBox.innerHTML = '<div class="result-icon">⚠️</div><div class="result-text">Please select a video to analyze.</div>';
-        return;
-    }
-    
-    // Show loading animation
-    resultBox.innerHTML = '<div class="loading-spinner"></div><p class="processing-message">Processing video... This may take a few moments.</p>';
-    resultBox.className = 'result-box';
-
-    try {
-        const formData = new FormData();
-        formData.append('video', videoInput.files[0]);
-        
-        const response = await fetch('/predict/video', {
-            method: 'POST',
-            body: formData
-        });
-
-        const result = await response.json();
-        
-        // Add animation to result display
-        resultBox.style.opacity = 0;
-        
-        setTimeout(() => {
-            if (result.prediction === "FAKE" || result.prediction === "DEEPFAKE") {
-                resultBox.className = 'result-box fake-result';
-                resultBox.innerHTML = `
-                    <div class="result-icon">🛑</div>
-                    <div class="result-text">DEEPFAKE DETECTED!</div>
-                    <div class="result-details">
-                        <p>Confidence: ${result.confidence}%</p>
-                        <p>Method: ${result.fake_method || 'AI-Generated Content'}</p>
-                    </div>
-                `;
-            } else {
-                resultBox.className = 'result-box real-result';
-                resultBox.innerHTML = `
-                    <div class="result-icon">✅</div>
-                    <div class="result-text">This video appears to be AUTHENTIC.</div>
-                    <div class="result-details">
-                        <p>Confidence: ${result.confidence}%</p>
-                    </div>
-                `;
-            }
-            resultBox.style.opacity = 1;
-        }, 300);
-    } catch (error) {
-        resultBox.className = 'result-box error-result';
-        resultBox.innerHTML = '<div class="result-icon">⚠️</div><div class="result-text">Error processing request. Please try again.</div>';
-        resultBox.style.opacity = 1;
-    }
-});
-
-// Form submission handling - Audio
-document.getElementById('audio-form')?.addEventListener('submit', async function(e) {
-    e.preventDefault();
-    const audioInput = document.getElementById('audio-input');
-    const resultBox = document.getElementById('audio-result');
-    
-    if (!audioInput.files || audioInput.files.length === 0) {
-        resultBox.className = 'result-box error-result';
-        resultBox.innerHTML = '<div class="result-icon">⚠️</div><div class="result-text">Please select an audio file to analyze.</div>';
-        return;
-    }
-    
-    // Show loading animation
-    resultBox.innerHTML = '<div class="loading-spinner"></div><p class="processing-message">Processing audio... This may take a few moments.</p>';
-    resultBox.className = 'result-box';
-
-    try {
-        const formData = new FormData();
-        formData.append('audio', audioInput.files[0]);
-        
-        const response = await fetch('/predict/audio', {
-            method: 'POST',
-            body: formData
-        });
-
-        const result = await response.json();
-        
-        // Add animation to result display
-        resultBox.style.opacity = 0;
-        
-        setTimeout(() => {
-            if (result.prediction === "FAKE" || result.prediction === "SYNTHETIC") {
-                resultBox.className = 'result-box fake-result';
-                resultBox.innerHTML = `
-                    <div class="result-icon">🛑</div>
-                    <div class="result-text">SYNTHETIC VOICE DETECTED!</div>
-                    <div class="result-details">
-                        <p>Confidence: ${result.confidence}%</p>
-                        <p>Method: ${result.generation_method || 'AI Voice Synthesis'}</p>
-                    </div>
-                `;
-            } else {
-                resultBox.className = 'result-box real-result';
-                resultBox.innerHTML = `
-                    <div class="result-icon">✅</div>
-                    <div class="result-text">This audio appears to be AUTHENTIC.</div>
-                    <div class="result-details">
-                        <p>Confidence: ${result.confidence}%</p>
-                    </div>
-                `;
-            }
-            resultBox.style.opacity = 1;
-        }, 300);
-    } catch (error) {
-        resultBox.className = 'result-box error-result';
-        resultBox.innerHTML = '<div class="result-icon">⚠️</div><div class="result-text">Error processing request. Please try again.</div>';
-        resultBox.style.opacity = 1;
-    }
-});
-
-// Contact form submission handler
-document.getElementById('contact-form')?.addEventListener('submit', async function(e) {
-    e.preventDefault();
-    
-    // Get form fields
-    const name = document.getElementById('contact-name').value.trim();
-    const email = document.getElementById('contact-email').value.trim();
-    const phone = document.getElementById('contact-phone')?.value.trim() || '';
-    const organization = document.getElementById('contact-organization')?.value.trim() || '';
-    const subject = document.getElementById('contact-subject').value;
-    const message = document.getElementById('contact-message').value.trim();
-    
-    // Get checkbox values
-    const newsletter = document.getElementById('contact-newsletter')?.checked || false;
-    const terms = document.getElementById('contact-terms')?.checked || false;
-    
-    // Get radio button selections
-    const sourceOptions = document.querySelectorAll('input[name="source"]');
-    let source = '';
-    for (const option of sourceOptions) {
-        if (option.checked) {
-            source = option.value;
-            break;
+                </div>
+            `;
         }
-    }
-    
-    // Get preferred contact method
-    const contactMethodOptions = document.querySelectorAll('input[name="contact-method"]');
-    let contactMethod = 'email'; // Default
-    for (const option of contactMethodOptions) {
-        if (option.checked) {
-            contactMethod = option.value;
-            break;
+        
+        // Function to update the topics list with data for a specific page
+        function showPageContent(pageNum) {
+            if (!pageData[pageNum]) return;
+            
+            // Show loading state
+            topicsList.style.opacity = "0.5";
+            
+            // Simulate loading delay
+            setTimeout(() => {
+                let topicsHTML = '';
+                
+                // Generate HTML for each topic in this page
+                pageData[pageNum].forEach(topic => {
+                    topicsHTML += generateTopicHTML(topic);
+                });
+                
+                // Update the list
+                topicsList.innerHTML = topicsHTML;
+                topicsList.style.opacity = "1";
+                
+                // Add event listeners to new vote buttons
+                attachVoteListeners();
+                
+                // Update sidebar latest discussions if this is a different page
+                if (pageNum != 1) {
+                    updateLatestDiscussionSidebar(pageData[pageNum].find(topic => topic.isLatest));
+                }
+                
+                // Scroll to top of forum section
+                const forumSection = document.querySelector('.community-forum');
+                if (forumSection) {
+                    window.scrollTo({
+                        top: forumSection.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                }
+            }, 500); // Simulate network delay
         }
+        
+        // Update sidebar with the latest discussion from the current page
+        function updateLatestDiscussionSidebar(latestTopic) {
+            if (!latestTopic) return;
+            
+            const latestDiscussionsBlock = document.querySelector('.latest-discussions');
+            if (latestDiscussionsBlock) {
+                const newCard = document.createElement('div');
+                newCard.className = 'latest-discussion-card';
+                
+                // Generate random avatar
+                const randomAvatar = `https://randomuser.me/api/portraits/${Math.random() > 0.5 ? 'men' : 'women'}/${Math.floor(Math.random() * 100)}.jpg`;
+                
+                newCard.innerHTML = `
+                    <div class="discussion-header">
+                        <img src="${randomAvatar}" alt="User avatar" class="user-avatar">
+                        <div class="discussion-info">
+                            <h4>${latestTopic.title}</h4>
+                            <span class="discussion-poster">${latestTopic.author} • ${latestTopic.time}</span>
+                        </div>
+                    </div>
+                    <p class="discussion-snippet">${latestTopic.excerpt.substring(0, 100)}${latestTopic.excerpt.length > 100 ? '...' : ''}</p>
+                    <div class="discussion-footer">
+                        <a href="#" class="read-more-btn">Read More</a>
+                    </div>
+                `;
+                
+                // Find existing latest discussion card and replace it
+                const existingCard = latestDiscussionsBlock.querySelector('.latest-discussion-card');
+                if (existingCard) {
+                    existingCard.parentNode.replaceChild(newCard, existingCard);
+                    
+                    // Add fade-in animation
+                    newCard.style.opacity = '0';
+                    setTimeout(() => {
+                        newCard.style.opacity = '1';
+                    }, 10);
+                }
+            }
+        }
+        
+        // Add click handlers for pagination elements
+        pagingElements.forEach(el => {
+            el.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Get current page
+                const currentPage = document.querySelector('.paging-current');
+                let currentPageNum = parseInt(currentPage.getAttribute('data-page'));
+                
+                // Determine target page
+                let targetPage;
+                if (this.classList.contains('paging-btn')) {
+                    // Handle prev/next buttons
+                    const direction = this.getAttribute('data-page');
+                    if (direction === 'prev') {
+                        targetPage = Math.max(1, currentPageNum - 1);
+                    } else if (direction === 'next') {
+                        targetPage = Math.min(Object.keys(pageData).length, currentPageNum + 1);
+                    }
+                } else {
+                    // Direct page number click
+                    targetPage = parseInt(this.getAttribute('data-page'));
+                }
+                
+                // If no change or invalid target, exit
+                if (!targetPage || targetPage === currentPageNum) return;
+                
+                // Update pagination UI
+                currentPage.classList.remove('paging-current');
+                currentPage.classList.add('paging-number');
+                
+                // Find the new current page element
+                let newCurrentPage;
+                if (document.querySelector(`[data-page="${targetPage}"]`)) {
+                    newCurrentPage = document.querySelector(`[data-page="${targetPage}"]`);
+                    newCurrentPage.classList.remove('paging-number');
+                    newCurrentPage.classList.add('paging-current');
+                }
+                
+                // Show content for the target page
+                showPageContent(targetPage);
+            });
+        });
+        
+        // Function to attach vote button event handlers
+        function attachVoteListeners() {
+            const voteButtons = document.querySelectorAll('.vote-btn');
+            
+            voteButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const direction = btn.innerHTML.includes('up') ? 1 : -1;
+                    const voteCountElem = btn.parentElement.querySelector('.vote-count');
+                    let currentVotes = parseInt(voteCountElem.textContent);
+                    
+                    // Check if user has already voted
+                    const hasVoted = btn.classList.contains('voted');
+                    
+                    if (hasVoted) {
+                        // Remove vote
+                        currentVotes -= direction;
+                        btn.classList.remove('voted');
+                        btn.style.color = '';
+                    } else {
+                        // Add vote
+                        currentVotes += direction;
+                        btn.classList.add('voted');
+                        btn.style.color = direction > 0 ? '#007BFF' : '#dc3545';
+                        
+                        // Remove vote from opposite button if it was selected
+                        const oppositeBtn = direction > 0 ? 
+                            btn.parentElement.querySelector('.vote-btn:nth-child(3)') : 
+                            btn.parentElement.querySelector('.vote-btn:nth-child(1)');
+                        
+                        if (oppositeBtn.classList.contains('voted')) {
+                            oppositeBtn.classList.remove('voted');
+                            oppositeBtn.style.color = '';
+                            currentVotes -= (direction * -1);
+                        }
+                    }
+                    
+                    voteCountElem.textContent = currentVotes;
+                    
+                    // Add a brief animation to the count
+                    voteCountElem.style.transform = 'scale(1.2)';
+                    setTimeout(() => {
+                        voteCountElem.style.transform = 'scale(1)';
+                    }, 200);
+                });
+            });
+        }
+        
+        // Initialize vote button handlers
+        attachVoteListeners();
     }
+
+    // Filter buttons functionality (Trending, Recent, Most Commented)
+    const filterButtons = document.querySelectorAll('.topic-filters .filter-btn');
     
-    // Create submit button reference to show loading state
-    const submitBtn = this.querySelector('.contact-submit-btn');
-    const originalBtnText = submitBtn.innerHTML;
-    
-    // Show loading state
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
-    
-    // Compile form data
-    const formData = {
-        name,
-        email,
-        phone,
-        organization,
-        subject,
-        message,
-        newsletter,
-        source,
-        contactMethod
-    };
-    
-    console.log('Form data being submitted:', formData);
-    
-    // Simulate API call (replace with actual backend endpoint)
-    try {
-        // Simulate network delay
-        await new Promise(resolve => setTimeout(resolve, 1200));
+    if (filterButtons.length > 0 && topicsList) {
+        // Sample data for filtered topics
+        const filteredTopics = {
+            trending: [
+                {
+                    title: "Verification challenge: Can you spot the fake?",
+                    badge: "Hot", 
+                    author: "VerificationExpert", 
+                    time: "2 days ago",
+                    category: "Interactive",
+                    excerpt: "Test your skills with these 10 examples of media content. Can you identify which ones are authentic and which ones are manipulated?",
+                    votes: 73,
+                    comments: 56,
+                    views: 529,
+                    isNew: true,
+                    isLatest: false
+                },
+                {
+                    title: "New AI detection model released",
+                    badge: "Trending", 
+                    author: "AIResearcher", 
+                    time: "Today",
+                    category: "Research & Technology",
+                    excerpt: "Our team has just released a new model that can detect AI-generated content with 97% accuracy. Here's how it works and how you can use it...",
+                    votes: 61,
+                    comments: 27,
+                    views: 302,
+                    isNew: true,
+                    isLatest: false
+                },
+                {
+                    title: "Detecting image manipulation using metadata",
+                    badge: "Popular", 
+                    author: "MetadataExpert", 
+                    time: "4 hours ago",
+                    category: "Image Verification",
+                    excerpt: "Learn how to examine image metadata to find clues about possible manipulation. This step-by-step guide will show you the tools and techniques...",
+                    votes: 53,
+                    comments: 15,
+                    views: 210,
+                    isNew: false,
+                    isLatest: false
+                }
+            ],
+            recent: [
+                {
+                    title: "How social media platforms are fighting misinformation",
+                    badge: "Latest", 
+                    author: "PlatformAnalyst", 
+                    time: "30 minutes ago",
+                    category: "Platform Policies",
+                    excerpt: "A comparative analysis of how major social media platforms are implementing measures to combat the spread of synthetic and manipulated media...",
+                    votes: 32,
+                    comments: 14,
+                    views: 142,
+                    isNew: false,
+                    isLatest: true
+                },
+                {
+                    title: "Best practices for verifying audio clips",
+                    badge: "New", 
+                    author: "AudioExpert", 
+                    time: "Just now",
+                    category: "Audio Verification",
+                    excerpt: "I've compiled a guide for identifying synthetic audio based on my experience as an audio engineer. These techniques have helped me spot AI-generated voices...",
+                    votes: 18,
+                    comments: 5,
+                    views: 47,
+                    isNew: false,
+                    isLatest: true
+                },
+                {
+                    title: "Is this viral TikTok real or fake?",
+                    badge: "Recent", 
+                    author: "SocialMediaWatcher", 
+                    time: "1 hour ago",
+                    category: "Social Media",
+                    excerpt: "A viral TikTok showing a politician saying controversial things has been shared millions of times. I used FakeBuster to determine if it's authentic...",
+                    votes: 27,
+                    comments: 19,
+                    views: 183,
+                    isNew: false,
+                    isLatest: true
+                },
+                {
+                    title: "Deep learning models for synthetic text detection",
+                    badge: "", 
+                    author: "DeepLearningDev", 
+                    time: "5 hours ago",
+                    category: "Technical Discussion",
+                    excerpt: "I've been experimenting with different neural network architectures for detecting AI-generated text. Here are my findings and recommendations...",
+                    votes: 48,
+                    comments: 22,
+                    views: 176,
+                    isNew: false,
+                    isLatest: false
+                }
+            ],
+            commented: [
+                {
+                    title: "Verification challenge: Can you spot the fake?",
+                    badge: "Active", 
+                    author: "VerificationExpert", 
+                    time: "2 days ago",
+                    category: "Interactive",
+                    excerpt: "Test your skills with these 10 examples of media content. Can you identify which ones are authentic and which ones are manipulated?",
+                    votes: 73,
+                    comments: 56,
+                    views: 529,
+                    isNew: false,
+                    isLatest: false
+                },
+                {
+                    title: "Analyzing political speeches for misleading claims",
+                    badge: "Discussed", 
+                    author: "PoliticalAnalyst", 
+                    time: "2 days ago",
+                    category: "Political Content",
+                    excerpt: "In this election season, I've been using FakeBuster to analyze various political speeches. Here's what I found and how you can verify claims yourself...",
+                    votes: 38,
+                    comments: 41,
+                    views: 415,
+                    isNew: false,
+                    isLatest: false
+                },
+                {
+                    title: "Success story: FakeBuster helped debunk viral misinformation",
+                    badge: "", 
+                    author: "FactChecker", 
+                    time: "3 days ago",
+                    category: "Success Stories",
+                    excerpt: "I want to share how I used FakeBuster to verify a viral news story that was spreading false information about climate change...",
+                    votes: 29,
+                    comments: 32,
+                    views: 378,
+                    isNew: false,
+                    isLatest: false
+                },
+                {
+                    title: "Legal implications of sharing manipulated content",
+                    badge: "", 
+                    author: "DigitalLawyer", 
+                    time: "Yesterday",
+                    category: "Legal Discussion",
+                    excerpt: "What are the legal consequences of knowingly sharing manipulated media? This post explores the current laws and regulations across different jurisdictions...",
+                    votes: 41,
+                    comments: 33,
+                    views: 287,
+                    isNew: false,
+                    isLatest: false
+                }
+            ]
+        };
         
-        // For demo purposes - show success
-        alert(`Thank you ${name}! Your message has been sent successfully. We will contact you soon via your preferred method: ${contactMethod}.`);
+        // Function to show filtered content
+        function showFilteredContent(filterType) {
+            if (!filteredTopics[filterType]) return;
+            
+            // Show loading state
+            topicsList.style.opacity = "0.5";
+            
+            // Simulate loading delay
+            setTimeout(() => {
+                let topicsHTML = '';
+                
+                // Generate HTML for each topic in this filter
+                filteredTopics[filterType].forEach(topic => {
+                    topicsHTML += generateTopicHTML(topic);
+                });
+                
+                // Update the list
+                topicsList.innerHTML = topicsHTML;
+                topicsList.style.opacity = "1";
+                
+                // Add event listeners to new vote buttons
+                attachVoteListeners();
+            }, 300); // Shorter delay for filters
+        }
         
-        // Clear form
-        this.reset();
-        
-        // Default radio button selection after reset
-        document.getElementById('method-email').checked = true;
-    } catch (error) {
-        // Show error
-        alert('Sorry, there was a problem sending your message. Please try again later.');
-    } finally {
-        // Restore button state
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = originalBtnText;
+        // Add click handlers for filter buttons
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Remove active class from all filter buttons
+                filterButtons.forEach(b => b.classList.remove('active'));
+                
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                // Get filter type
+                const filterType = this.getAttribute('data-filter');
+                
+                // Show content based on filter
+                if (filterType === 'all') {
+                    // Show default content (page 1)
+                    showPageContent(1);
+                    
+                    // Update pagination UI to show page 1 as active
+                    const currentPage = document.querySelector('.paging-current');
+                    if (currentPage) {
+                        currentPage.classList.remove('paging-current');
+                        currentPage.classList.add('paging-number');
+                    }
+                    
+                    const firstPage = document.querySelector('[data-page="1"]');
+                    if (firstPage) {
+                        firstPage.classList.remove('paging-number');
+                        firstPage.classList.add('paging-current');
+                    }
+                } else {
+                    // Show filtered content
+                    showFilteredContent(filterType);
+                }
+            });
+        });
     }
 });
