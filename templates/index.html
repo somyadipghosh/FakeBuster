@@ -775,6 +775,85 @@
                 console.error('Error:', error);
             }
         });
+
+        // Image verification functionality
+        document.getElementById('image-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            
+            const imageInput = document.getElementById('image-input');
+            const imageResultDiv = document.getElementById('image-result');
+            
+            if (!imageInput.files || imageInput.files.length === 0) {
+                imageResultDiv.innerHTML = '<div class="alert alert-warning">Please select an image to verify.</div>';
+                return;
+            }
+            
+            // Show loading state
+            imageResultDiv.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Analyzing your image. This may take a moment.</div>';
+            
+            // Create form data to send the file
+            const formData = new FormData();
+            formData.append('image', imageInput.files[0]);
+            
+            try {
+                // Directly send to Flask backend - no external hosting
+                const response = await fetch('http://127.0.0.1:5000/api/detect-fake-image', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                
+                const result = await response.json();
+                console.log("Image analysis result:", result);
+                
+                // Calculate probability class based on AI-generation score
+                let resultClass = 'neutral';
+                let statusText = 'Inconclusive';
+                let icon = 'question-circle';
+                
+                // Default value if property is missing
+                const scamProb = (result.scam_probability || result.probability || 0.5) * 100;
+                
+                if (scamProb < 30) {
+                    resultClass = 'true';
+                    statusText = 'Likely Authentic';
+                    icon = 'check-circle';
+                } else if (scamProb > 70) {
+                    resultClass = 'false';
+                    statusText = 'Likely AI-Generated';
+                    icon = 'times-circle';
+                } else {
+                    resultClass = 'neutral';
+                    statusText = 'Uncertain';
+                    icon = 'exclamation-circle';
+                }
+                
+                // Display results in the same format as the news detector
+                imageResultDiv.innerHTML = `
+                    <div class="result ${resultClass}">
+                        <div class="result-header">
+                            <i class="fas fa-${icon}"></i>
+                            <h3>Analysis Results</h3>
+                        </div>
+                        <div class="result-content">
+                            <p><strong>Status:</strong> ${statusText}</p>
+                            <p><strong>AI-generated probability:</strong> ${scamProb.toFixed(2)}%</p>
+                            <p><strong>Faces detected:</strong> ${result.faces ? result.faces.length : 0}</p>
+                            ${result.explanation ? `<p><strong>Explanation:</strong> ${result.explanation}</p>` : ''}
+                        </div>
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Error during image analysis:', error);
+                imageResultDiv.innerHTML = `<div class="alert alert-danger">
+                    <i class="fas fa-exclamation-triangle"></i> 
+                    Analysis failed. Please try again later.
+                </div>`;
+            }
+        });
     </script>
 </body>
 </html>
