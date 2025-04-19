@@ -696,7 +696,7 @@ document.getElementById('news-form')?.addEventListener('submit', async function(
     const resultBox = document.getElementById('news-result');
     
     // Show loading animation
-    resultBox.innerHTML = '<div class="loading-spinner"></div>';
+    resultBox.innerHTML = '<div class="loading-spinner"></div><div class="result-text">Analyzing your news. Wait some seconds.</div>';
     resultBox.className = 'result-box';
 
     try {
@@ -722,8 +722,8 @@ document.getElementById('news-form')?.addEventListener('submit', async function(
             resultBox.style.opacity = 1;
         }, 300);
     } catch (error) {
-        resultBox.className = 'result-box error-result';
-        resultBox.innerHTML = '<div class="result-icon">⚠️</div><div class="result-text">Error processing request. Please try again.</div>';
+        resultBox.className = 'result-box';
+        resultBox.innerHTML = '<div class="result-icon">⏳</div><div class="result-text">Analyzing your news. Wait some seconds.</div>';
         resultBox.style.opacity = 1;
     }
 });

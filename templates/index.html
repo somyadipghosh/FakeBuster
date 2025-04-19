@@ -456,5 +456,65 @@
     </div>
     
     <script src="../static/js/script.js"></script>
+    
+    <script>
+        // News verification functionality
+        document.getElementById('news-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            
+            const newsContent = document.getElementById('news').value.trim();
+            const newsResultDiv = document.getElementById('news-result');
+            
+            if (!newsContent) {
+                newsResultDiv.innerHTML = '<div class="alert alert-warning">Please enter news content to verify.</div>';
+                return;
+            }
+            
+            // Show loading state
+            newsResultDiv.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Analyzing your news. Wait some seconds.</div>';
+            
+            try {
+                const response = await fetch('http://127.0.0.1:5000/api/detect-fake-news', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ news: newsContent })
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    let resultClass = 'neutral';
+                    let icon = 'question-circle';
+                    
+                    if (result.status === 'real') {
+                        resultClass = 'true';
+                        icon = 'check-circle';
+                    } else if (result.status === 'fake') {
+                        resultClass = 'false';
+                        icon = 'times-circle';
+                    }
+                    
+                    newsResultDiv.innerHTML = `
+                        <div class="result ${resultClass}">
+                            <div class="result-header">
+                                <i class="fas fa-${icon}"></i>
+                                <h3>Analysis Results</h3>
+                            </div>
+                            <div class="result-content">
+                                ${result.result}
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    newsResultDiv.innerHTML = `<div class="alert alert-danger">Error: ${result.error || 'Something went wrong'}</div>`;
+                }
+            } catch (error) {
+                newsResultDiv.innerHTML = `<div class="alert alert-danger"><i class="fas fa-spinner fa-spin"></i> Analyzing your news. Wait some seconds.</div>`;
+                console.error('Error:', error);
+            }
+        });
+    </script>
 </body>
 </html>
