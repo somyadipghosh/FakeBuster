@@ -1,5 +1,3 @@
-README FILE
-
 # 🕵‍♂ Project: FakeBuster – Real-Time Deepfake & Fake News Detector
 
 ## 🚀 Overview
