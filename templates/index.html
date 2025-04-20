@@ -85,17 +85,34 @@
                 <div class="form-card">
                     <h2><i class="fas fa-video"></i> Analyze Video</h2>
                     <form id="video-form">
-                        <div class="file-upload">
-                            <div class="file-upload-placeholder" id="video-placeholder">
-                                <i class="fas fa-cloud-upload-alt"></i>
-                                <p>Drag and drop a video or click to browse</p>
-                                <span class="file-info">Supported formats: MP4, MOV, AVI, WEBM (Max 50MB)</span>
+                        <div class="input-toggle-group">
+                            <div class="toggle-options">
+                                <button type="button" class="toggle-btn active" data-target="video-file-input">Upload File</button>
+                                <button type="button" class="toggle-btn" data-target="video-url-input">Use URL</button>
                             </div>
-                            <input type="file" name="video" id="video-input" accept="video/*" class="file-input">
-                        </div>
-                        <div class="video-preview-container" id="video-preview-container" style="display: none;">
-                            <video id="video-preview" controls></video>
-                            <button type="button" class="remove-file-btn" id="remove-video"><i class="fas fa-times"></i></button>
+                            
+                            <div class="toggle-section active" id="video-file-input">
+                                <div class="file-upload">
+                                    <div class="file-upload-placeholder" id="video-placeholder">
+                                        <i class="fas fa-cloud-upload-alt"></i>
+                                        <p>Drag and drop a video or click to browse</p>
+                                        <span class="file-info">Supported formats: MP4, MOV, AVI, WEBM (Max 50MB)</span>
+                                    </div>
+                                    <input type="file" name="video" id="video-input" accept="video/*" class="file-input">
+                                </div>
+                                <div class="video-preview-container" id="video-preview-container" style="display: none;">
+                                    <video id="video-preview" controls></video>
+                                    <button type="button" class="remove-file-btn" id="remove-video"><i class="fas fa-times"></i></button>
+                                </div>
+                            </div>
+                            
+                            <div class="toggle-section" id="video-url-input">
+                                <div class="form-group">
+                                    <label for="video-url"><i class="fas fa-link"></i> Video URL</label>
+                                    <input type="url" id="video-url" name="video-url" placeholder="Enter URL to a video (YouTube, Vimeo, or direct video link)">
+                                    <span class="form-hint">For best results, use a direct link to a video file (.mp4, .mov, etc.)</span>
+                                </div>
+                            </div>
                         </div>
                         <button type="submit" class="check-btn"><i class="fas fa-check-circle"></i> Verify Video</button>
                     </form>
@@ -851,6 +868,152 @@
                 imageResultDiv.innerHTML = `<div class="alert alert-danger">
                     <i class="fas fa-exclamation-triangle"></i> 
                     Analysis failed. Please try again later.
+                </div>`;
+            }
+        });
+
+        // Video verification functionality
+        document.getElementById('video-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            
+            const videoInput = document.getElementById('video-input');
+            const videoResultDiv = document.getElementById('video-result');
+            const videoUrl = document.getElementById('video-url');
+            
+            // Check if either file upload or URL is provided
+            if ((!videoInput.files || videoInput.files.length === 0) && (!videoUrl || !videoUrl.value.trim())) {
+                videoResultDiv.innerHTML = '<div class="alert alert-warning">Please select a video file or enter a video URL to verify.</div>';
+                return;
+            }
+            
+            // Show loading state
+            videoResultDiv.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Analyzing your video. This may take several moments depending on the video size.</div>';
+            
+            try {
+                let response;
+                
+                // Check if using file upload or URL
+                if (videoInput.files && videoInput.files.length > 0) {
+                    // File upload approach
+                    const formData = new FormData();
+                    formData.append('video', videoInput.files[0]);
+                    
+                    response = await fetch('http://127.0.0.1:5000/api/detect-fake-video/upload', {
+                        method: 'POST',
+                        body: formData
+                    });
+                } else if (videoUrl && videoUrl.value.trim()) {
+                    // URL approach
+                    response = await fetch('http://127.0.0.1:5000/api/detect-fake-video/url', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ url: videoUrl.value.trim() })
+                    });
+                }
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                
+                const result = await response.json();
+                console.log("Video analysis result:", result);
+                
+                // Process the results to display
+                if (result.error) {
+                    videoResultDiv.innerHTML = `<div class="alert alert-danger">
+                        <i class="fas fa-exclamation-triangle"></i> 
+                        ${result.message || 'Analysis failed. Please try again later.'}
+                    </div>`;
+                    return;
+                }
+                
+                // Check if we have data structure expected for video check-sync API
+                if (result.status === "success" && result.data && result.data.frames) {
+                    const frames = result.data.frames;
+                    
+                    // Calculate average deepfake probability across frames
+                    let totalDeepfakeScore = 0;
+                    let framesWithScores = 0;
+                    
+                    frames.forEach(frame => {
+                        if (frame.type && typeof frame.type.deepfake === 'number') {
+                            totalDeepfakeScore += frame.type.deepfake;
+                            framesWithScores++;
+                        }
+                    });
+                    
+                    const averageDeepfakeScore = framesWithScores > 0 ? 
+                        totalDeepfakeScore / framesWithScores : 0;
+                    
+                    // Determine result class based on average score
+                    let resultClass = 'neutral';
+                    let statusText = 'Inconclusive';
+                    let icon = 'question-circle';
+                    
+                    if (averageDeepfakeScore < 0.3) {
+                        resultClass = 'true';
+                        statusText = 'Likely Authentic';
+                        icon = 'check-circle';
+                    } else if (averageDeepfakeScore > 0.7) {
+                        resultClass = 'false';
+                        statusText = 'Likely Deepfake';
+                        icon = 'times-circle';
+                    } else {
+                        resultClass = 'neutral';
+                        statusText = 'Uncertain';
+                        icon = 'exclamation-circle';
+                    }
+                    
+                    // Generate frame-by-frame analysis HTML
+                    let frameAnalysisHtml = '';
+                    if (frames.length > 0) {
+                        frameAnalysisHtml = '<h4>Frame Analysis:</h4><ul class="frame-analysis">';
+                        frames.forEach((frame, index) => {
+                            if (frame.type && typeof frame.type.deepfake === 'number') {
+                                const deepfakeScore = frame.type.deepfake;
+                                const scorePercentage = (deepfakeScore * 100).toFixed(2);
+                                
+                                let frameClass = 'neutral';
+                                if (deepfakeScore < 0.3) frameClass = 'true';
+                                else if (deepfakeScore > 0.7) frameClass = 'false';
+                                
+                                frameAnalysisHtml += `<li class="${frameClass}">Frame ${index+1}: <strong>${scorePercentage}%</strong> probability of being deepfake</li>`;
+                            }
+                        });
+                        frameAnalysisHtml += '</ul>';
+                    }
+                    
+                    // Display results
+                    videoResultDiv.innerHTML = `
+                        <div class="result ${resultClass}">
+                            <div class="result-header">
+                                <i class="fas fa-${icon}"></i>
+                                <h3>Analysis Results</h3>
+                            </div>
+                            <div class="result-content">
+                                <p><strong>Status:</strong> ${statusText}</p>
+                                <p><strong>Average Deepfake Probability:</strong> ${(averageDeepfakeScore * 100).toFixed(2)}%</p>
+                                <p><strong>Frames Analyzed:</strong> ${framesWithScores}</p>
+                                <div class="frame-details">
+                                    ${frameAnalysisHtml}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    videoResultDiv.innerHTML = `<div class="alert alert-warning">
+                        <i class="fas fa-exclamation-circle"></i>
+                        No detailed analysis available. The video might be too short or couldn't be properly analyzed.
+                    </div>`;
+                }
+                
+            } catch (error) {
+                console.error('Error during video analysis:', error);
+                videoResultDiv.innerHTML = `<div class="alert alert-danger">
+                    <i class="fas fa-exclamation-triangle"></i> 
+                    Analysis failed: ${error.message || 'Unknown error occurred'}. Please try again later.
                 </div>`;
             }
         });

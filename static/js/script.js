@@ -227,6 +227,42 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Add toggle functionality for video input methods
+    const toggleBtns = document.querySelectorAll('.toggle-btn');
+    if (toggleBtns.length > 0) {
+        toggleBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Find all toggle buttons in this group and remove active class
+                const parentGroup = this.closest('.toggle-options');
+                if (parentGroup) {
+                    parentGroup.querySelectorAll('.toggle-btn').forEach(b => {
+                        b.classList.remove('active');
+                    });
+                }
+                
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                // Hide all toggle sections
+                const toggleGroup = this.closest('.input-toggle-group');
+                if (toggleGroup) {
+                    toggleGroup.querySelectorAll('.toggle-section').forEach(section => {
+                        section.classList.remove('active');
+                    });
+                    
+                    // Show the target section
+                    const targetId = this.getAttribute('data-target');
+                    if (targetId) {
+                        const targetSection = document.getElementById(targetId);
+                        if (targetSection) {
+                            targetSection.classList.add('active');
+                        }
+                    }
+                }
+            });
+        });
+    }
+
     // File upload handling - Audio
     const audioInput = document.getElementById('audio-input');
     const audioPreview = document.getElementById('audio-preview');
