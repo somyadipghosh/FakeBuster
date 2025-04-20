@@ -302,6 +302,160 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Audio verification functionality - Enhanced version
+    document.getElementById('audio-form').addEventListener('submit', async function(event) {
+        event.preventDefault();
+        
+        const audioInput = document.getElementById('audio-input');
+        const audioResultDiv = document.getElementById('audio-result');
+        
+        if (!audioInput.files || audioInput.files.length === 0) {
+            audioResultDiv.innerHTML = '<div class="alert alert-warning">Please select an audio file to verify.</div>';
+            return;
+        }
+        
+        // Show loading state
+        audioResultDiv.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Analyzing your audio. This may take a moment.</div>';
+        
+        // Create form data to send the file
+        const formData = new FormData();
+        formData.append('audio', audioInput.files[0]);
+        
+        try {
+            // Send to Flask backend
+            const response = await fetch('http://127.0.0.1:5000/api/detect-fake-audio', {
+                method: 'POST',
+                body: formData
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            
+            const result = await response.json();
+            console.log("Audio analysis result:", result);
+            
+            // Calculate probability class based on prediction scores
+            let resultClass = 'neutral';
+            let statusText = 'Inconclusive';
+            let icon = 'question-circle';
+            
+            // Calculate fake probability based on the API response
+            const fakeScore = result.fake_score || 0.5;
+            const fakeProb = fakeScore * 100;
+            
+            if (fakeProb < 30) {
+                resultClass = 'true';
+                statusText = 'Likely Human Voice';
+                icon = 'check-circle';
+            } else if (fakeProb > 70) {
+                resultClass = 'false';
+                statusText = 'Likely AI-Generated';
+                icon = 'times-circle';
+            } else {
+                resultClass = 'neutral';
+                statusText = 'Uncertain';
+                icon = 'exclamation-circle';
+            }
+            
+            // Display results with more detailed information from the API
+            audioResultDiv.innerHTML = `
+                <div class="result ${resultClass}">
+                    <div class="result-header">
+                        <i class="fas fa-${icon}"></i>
+                        <h3>Analysis Results</h3>
+                    </div>
+                    <div class="result-content">
+                        <p><strong>Status:</strong> ${statusText}</p>
+                        <p><strong>AI-generated probability:</strong> ${fakeProb.toFixed(2)}%</p>
+                        <p><strong>Real voice probability:</strong> ${(result.real_score * 100).toFixed(2)}%</p>
+                        ${result.confidence ? `<p><strong>Confidence level:</strong> ${(result.confidence * 100).toFixed(2)}%</p>` : ''}
+                        <div class="probability-bar">
+                            <div class="real-prob" style="width: ${(result.real_score * 100).toFixed(2)}%">
+                                <span>Real ${(result.real_score * 100).toFixed(0)}%</span>
+                            </div>
+                            <div class="fake-prob" style="width: ${(result.fake_score * 100).toFixed(2)}%">
+                                <span>Fake ${(result.fake_score * 100).toFixed(0)}%</span>
+                            </div>
+                        </div>
+                        <div class="result-explanation">
+                            <h4>What this means</h4>
+                            ${fakeProb < 30 ? `
+                                <p>The audio appears to be a genuine human recording. The analysis detected natural characteristics consistent with human speech, such as:</p>
+                                <ul>
+                                    <li>Natural variations in tempo and rhythm</li>
+                                    <li>Expected breathing patterns</li>
+                                    <li>Natural voice formants</li>
+                                </ul>
+                            ` : fakeProb > 70 ? `
+                                <p>The audio shows signs of being artificially generated or manipulated. The analysis detected:</p>
+                                <ul>
+                                    <li>Unnatural patterns in speech rhythm</li>
+                                    <li>Artificial transitions between sounds</li>
+                                    <li>Missing or unusual vocal characteristics</li>
+                                    <li>Spectral artifacts typical of AI-generated speech</li>
+                                </ul>
+                            ` : `
+                                <p>The analysis shows mixed characteristics, making it difficult to determine if the audio is real or synthetic.</p>
+                                <ul>
+                                    <li>Some natural speech patterns detected</li>
+                                    <li>Some potential synthetic artifacts present</li>
+                                    <li>Consider context and source of the audio</li>
+                                </ul>
+                            `}
+                            <p><em>Note: This is an automated analysis and may not be 100% accurate. For critical situations, consult with audio forensics experts.</em></p>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Add custom CSS for probability bar if not already in the page
+            if (!document.getElementById('probability-bar-styles')) {
+                const style = document.createElement('style');
+                style.id = 'probability-bar-styles';
+                style.textContent = `
+                    .probability-bar {
+                        display: flex;
+                        height: 30px;
+                        border-radius: 15px;
+                        overflow: hidden;
+                        margin: 15px 0;
+                        box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+                    }
+                    .real-prob {
+                        background: linear-gradient(to right, #4CAF50, #8BC34A);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        color: white;
+                        text-shadow: 0 1px 1px rgba(0,0,0,0.2);
+                        font-weight: bold;
+                        min-width: 40px;
+                        transition: width 1s ease-in-out;
+                    }
+                    .fake-prob {
+                        background: linear-gradient(to right, #FF9800, #F44336);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        color: white;
+                        text-shadow: 0 1px 1px rgba(0,0,0,0.2);
+                        font-weight: bold;
+                        min-width: 40px;
+                        transition: width 1s ease-in-out;
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+        } catch (error) {
+            console.error('Error during audio analysis:', error);
+            audioResultDiv.innerHTML = `<div class="alert alert-danger">
+                <i class="fas fa-exclamation-triangle"></i> 
+                Analysis failed: ${error.message || 'Unknown error occurred'}. Please try again later.
+            </div>`;
+        }
+    });
+
     // Drag and drop functionality for file uploads
     const fileUploadContainers = document.querySelectorAll('.file-upload');
     

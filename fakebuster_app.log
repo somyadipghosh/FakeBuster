@@ -1,0 +1,59 @@
+2025-04-20 12:34:33,684 - __main__ - INFO - Successfully loaded audio detector modules
+2025-04-20 12:34:33,866 - __main__ - INFO - Audio detection model loaded successfully
+2025-04-20 12:34:33,867 - __main__ - INFO - Starting Flask server...
+2025-04-20 12:34:33,913 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-04-20 12:34:33,915 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-04-20 12:34:33,949 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-04-20 12:34:39,660 - __main__ - INFO - Successfully loaded audio detector modules
+2025-04-20 12:34:39,768 - __main__ - INFO - Audio detection model loaded successfully
+2025-04-20 12:34:39,768 - __main__ - INFO - Starting Flask server...
+2025-04-20 12:34:39,787 - werkzeug - WARNING -  * Debugger is active!
+2025-04-20 12:34:39,807 - werkzeug - INFO -  * Debugger PIN: 578-627-584
+2025-04-20 12:35:16,689 - werkzeug - INFO -  * Detected change in 'C:\\Users\\somya\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\lazy_loader\\__init__.py', reloading
+2025-04-20 12:35:16,695 - werkzeug - INFO -  * Detected change in 'C:\\Users\\somya\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\librosa\\core\\audio.py', reloading
+2025-04-20 12:35:16,788 - werkzeug - INFO -  * Detected change in 'C:\\Users\\somya\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\librosa\\feature\\spectral.py', reloading
+2025-04-20 12:35:17,032 - werkzeug - INFO -  * Detected change in 'C:\\Users\\somya\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\werkzeug\\debug\\__init__.py', reloading
+2025-04-20 12:35:17,175 - __main__ - INFO - Application shutting down, cleaning up resources...
+2025-04-20 12:35:19,365 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-04-20 12:35:28,384 - __main__ - INFO - Successfully loaded audio detector modules
+2025-04-20 12:35:28,586 - __main__ - INFO - Audio detection model loaded successfully
+2025-04-20 12:35:28,597 - __main__ - INFO - Starting Flask server...
+2025-04-20 12:35:28,646 - werkzeug - WARNING -  * Debugger is active!
+2025-04-20 12:35:28,677 - werkzeug - INFO -  * Debugger PIN: 578-627-584
+2025-04-20 12:35:31,702 - werkzeug - INFO -  * Detected change in 'C:\\Users\\somya\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\http\\server.py', reloading
+2025-04-20 12:35:31,752 - werkzeug - INFO -  * Detected change in 'C:\\Users\\somya\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\socketserver.py', reloading
+2025-04-20 12:35:31,764 - werkzeug - INFO -  * Detected change in 'C:\\Users\\somya\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\threading.py', reloading
+2025-04-20 12:35:31,822 - __main__ - INFO - Application shutting down, cleaning up resources...
+2025-04-20 12:35:33,756 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-04-20 12:35:40,899 - __main__ - INFO - Successfully loaded audio detector modules
+2025-04-20 12:35:41,041 - __main__ - INFO - Audio detection model loaded successfully
+2025-04-20 12:35:41,043 - __main__ - INFO - Starting Flask server...
+2025-04-20 12:35:41,069 - werkzeug - WARNING -  * Debugger is active!
+2025-04-20 12:35:41,080 - werkzeug - INFO -  * Debugger PIN: 578-627-584
+2025-04-20 12:39:11,973 - __main__ - INFO - Application shutting down, cleaning up resources...
+2025-04-20 12:39:12,830 - __main__ - INFO - Application shutting down, cleaning up resources...
+2025-04-20 12:39:23,878 - __main__ - INFO - Successfully loaded audio detector modules
+2025-04-20 12:39:23,981 - __main__ - INFO - Audio detection model loaded successfully
+2025-04-20 12:39:23,982 - __main__ - INFO - Starting Flask server...
+2025-04-20 12:39:24,024 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-04-20 12:39:24,030 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-04-20 12:39:24,055 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-04-20 12:39:28,702 - __main__ - INFO - Successfully loaded audio detector modules
+2025-04-20 12:39:28,795 - __main__ - INFO - Audio detection model loaded successfully
+2025-04-20 12:39:28,795 - __main__ - INFO - Starting Flask server...
+2025-04-20 12:39:28,820 - werkzeug - WARNING -  * Debugger is active!
+2025-04-20 12:39:28,831 - werkzeug - INFO -  * Debugger PIN: 578-627-584
+2025-04-20 12:39:48,554 - werkzeug - INFO -  * Detected change in 'C:\\Users\\somya\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\importlib\\__init__.py', reloading
+2025-04-20 12:39:49,063 - __main__ - INFO - Application shutting down, cleaning up resources...
+2025-04-20 12:39:50,777 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-04-20 12:39:57,094 - __main__ - INFO - Successfully loaded audio detector modules
+2025-04-20 12:39:57,171 - __main__ - INFO - Audio detection model loaded successfully
+2025-04-20 12:39:57,171 - __main__ - INFO - Starting Flask server...
+2025-04-20 12:39:57,202 - werkzeug - WARNING -  * Debugger is active!
+2025-04-20 12:39:57,216 - werkzeug - INFO -  * Debugger PIN: 578-627-584
+2025-04-20 12:41:11,597 - werkzeug - INFO -  * Detected change in 'C:\\Users\\somya\\hack4bengal\\fake_audio_detector\\app.py', reloading
+2025-04-20 12:41:11,784 - werkzeug - INFO -  * Detected change in 'C:\\Users\\somya\\hack4bengal\\fake_audio_detector\\app.py', reloading
+2025-04-20 12:41:12,094 - __main__ - INFO - Application shutting down, cleaning up resources...
+2025-04-20 12:41:27,546 - __main__ - INFO - Application shutting down, cleaning up resources...
