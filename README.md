@@ -1,4 +1,6 @@
-# 🕵️‍♂️ Project: FakeBuster – Real-Time Deepfake & Fake News Detector
+README FILE
+
+# 🕵‍♂ Project: FakeBuster – Real-Time Deepfake & Fake News Detector
 
 ## 🚀 Overview
 FakeBuster is a browser extension and web tool that detects deepfakes and misinformation in real-time. Users can scan videos, images, or news articles as they browse online and get instant feedback on whether the content is manipulated or fake.
@@ -10,7 +12,7 @@ FakeBuster is a browser extension and web tool that detects deepfakes and misinf
 ### Frontend:
 - React.js (SPA)
 - Tailwind CSS (Styling)
-- JavaScript (Browser Extension)
+- JavaScript 
 
 ### Backend:
 - Python (Flask or FastAPI)
@@ -27,30 +29,6 @@ FakeBuster is a browser extension and web tool that detects deepfakes and misinf
 
 ---
 
-## 📁 Project Structure
-
-```
-fakebuster/
-├── backend/
-│   ├── app.py
-│   └── utils/
-│       ├── fake_news.py
-│       └── deepfake.py
-├── frontend/
-│   └── src/
-│       ├── components/
-│       ├── pages/
-│       └── App.jsx
-├── extension/
-│   ├── manifest.json
-│   ├── background.js
-│   ├── content.js
-│   ├── popup.html
-│   └── popup.js
-```
-
----
-
 ## 🧱 Features
 
 ### 1. Deepfake Detection
@@ -63,10 +41,15 @@ fakebuster/
 - Text is tokenized and passed to a pre-trained DistilBERT model (or API)
 - Returns verdict: Real, Fake, or Biased
 
-### 3. Chrome Extension
-- Injects content.js into visited pages
-- Highlights suspicious content
-- Allows users to scan selected articles/images with right-click
+### 3. Deepfake Image Detection
+- Upload an image for verification
+- Backend sends data to Deepware API
+- Response includes probability of image manipulation
+
+### 4. Deepfake Video Detection
+- Upload a video or paste a video URL
+- Backend extracts keyframes and analyzes them via API
+- Returns deepfake probability score
 
 ---
 
@@ -86,19 +69,12 @@ fakebuster/
    - Image/Video Upload
 3. Use Axios to call Flask APIs
 
-### Phase 3: Browser Extension
-1. Create manifest.json (v3)
-2. Build content.js to scrape text/images from pages
-3. Send scraped data to backend for analysis
-4. Display visual warnings (e.g., red borders, tooltips)
-5. Create popup.html with scan buttons
-
-### Phase 4: Testing
+### Phase 3: Testing
 1. Use FaceForensics++ samples for deepfake tests
 2. Use LIAR/FakeNewsNet dataset articles for NLP validation
 3. Test Chrome extension on news sites and social media
 
-### Phase 5: Deployment (Optional)
+### Phase 4: Deployment (Optional)
 - Host backend on Render or Railway
 - Host frontend on Vercel
 - Load extension in Chrome (Developer Mode)
@@ -119,5 +95,3 @@ fakebuster/
 - Follow Chrome Extension v3 security guidelines (e.g., avoid eval)
 
 ---
-
-Need help generating starter code for any part of this? Just ask! 😎
